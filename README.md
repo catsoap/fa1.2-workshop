@@ -9,7 +9,7 @@ A monorepo for dapp development on Tezos.
 
 ## Installation
 
-npm i --legacy-peer-deps
+`npm i --legacy-peer-deps`
 
 ## Packages
 
@@ -22,12 +22,12 @@ There are 2 packages:
 ## Dev
 
 - npm run start-sandox / starts the flextesa sandbox from the contracts package
-- npm run start-dapp / starts the react app in the dapp package
 - npm run compile / compiles contracts
 - npm run migrate / migrates contracts
+- npm run start-dapp / starts the react app in the dapp package
 
 ## Resources
 
-https://dev.to/limal/simplify-your-monorepo-with-npm-7-workspaces-5gmj
-https://github.com/stove-labs/tezos-starter-kit
+https://dev.to/limal/simplify-your-monorepo-with-npm-7-workspaces-5gmj  
+https://github.com/stove-labs/tezos-starter-kit  
 https://github.com/stove-labs/tzip-12
