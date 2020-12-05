@@ -1,0 +1,40 @@
+{
+  "contractName": "Counter",
+  "abi": [],
+  "michelson": "[ { \"prim\": \"parameter\",\n    \"args\":\n      [ { \"prim\": \"or\",\n          \"args\":\n            [ { \"prim\": \"int\", \"annots\": [ \"%decrement\" ] },\n              { \"prim\": \"int\", \"annots\": [ \"%increment\" ] } ] } ] },\n  { \"prim\": \"storage\", \"args\": [ { \"prim\": \"int\" } ] },\n  { \"prim\": \"code\",\n    \"args\":\n      [ [ { \"prim\": \"DUP\" }, { \"prim\": \"CDR\" },\n          { \"prim\": \"DIG\", \"args\": [ { \"int\": \"1\" } ] }, { \"prim\": \"DUP\" },\n          { \"prim\": \"DUG\", \"args\": [ { \"int\": \"2\" } ] }, { \"prim\": \"CAR\" },\n          { \"prim\": \"IF_LEFT\",\n            \"args\":\n              [ [ { \"prim\": \"DUP\" },\n                  { \"prim\": \"DIG\", \"args\": [ { \"int\": \"2\" } ] },\n                  { \"prim\": \"DUP\" },\n                  { \"prim\": \"DUG\", \"args\": [ { \"int\": \"3\" } ] },\n                  { \"prim\": \"PAIR\" }, { \"prim\": \"DUP\" }, { \"prim\": \"CDR\" },\n                  { \"prim\": \"DIG\", \"args\": [ { \"int\": \"1\" } ] },\n                  { \"prim\": \"DUP\" },\n                  { \"prim\": \"DUG\", \"args\": [ { \"int\": \"2\" } ] },\n                  { \"prim\": \"CAR\" }, { \"prim\": \"SUB\" },\n                  { \"prim\": \"DIP\",\n                    \"args\":\n                      [ [ { \"prim\": \"DROP\", \"args\": [ { \"int\": \"2\" } ] } ] ] } ],\n                [ { \"prim\": \"DUP\" },\n                  { \"prim\": \"DIG\", \"args\": [ { \"int\": \"2\" } ] },\n                  { \"prim\": \"DUP\" },\n                  { \"prim\": \"DUG\", \"args\": [ { \"int\": \"3\" } ] },\n                  { \"prim\": \"PAIR\" }, { \"prim\": \"DUP\" }, { \"prim\": \"CDR\" },\n                  { \"prim\": \"DIG\", \"args\": [ { \"int\": \"1\" } ] },\n                  { \"prim\": \"DUP\" },\n                  { \"prim\": \"DUG\", \"args\": [ { \"int\": \"2\" } ] },\n                  { \"prim\": \"CAR\" }, { \"prim\": \"ADD\" },\n                  { \"prim\": \"DIP\",\n                    \"args\":\n                      [ [ { \"prim\": \"DROP\", \"args\": [ { \"int\": \"2\" } ] } ] ] } ] ] },\n          { \"prim\": \"NIL\", \"args\": [ { \"prim\": \"operation\" } ] },\n          { \"prim\": \"PAIR\" },\n          { \"prim\": \"DIP\",\n            \"args\": [ [ { \"prim\": \"DROP\", \"args\": [ { \"int\": \"2\" } ] } ] ] } ] ] } ]",
+  "source": "// variant defining pseudo multi-entrypoint actions\ntype action is\n| Increment of int\n| Decrement of int\n\nfunction add (const a : int ; const b : int) : int is a + b\n\nfunction subtract (const a : int ; const b : int) : int is a - b\n\n// real entrypoint that re-routes the flow based on the action provided\nfunction main (const p : action ; const s : int) : (list(operation) * int) is \n  ((nil : list(operation)),\n    case p of\n    | Increment (n) -> add (s, n)\n    | Decrement (n) -> subtract (s, n)\n    end)\n",
+  "sourcePath": "/home/steven/workspace/tezos/fa1.2-workshop/packages/contracts/contracts/Counter.ligo",
+  "compiler": {
+    "name": "ligo",
+    "version": "next"
+  },
+  "networks": {
+    "NetXW7vJJepzqiU": {
+      "events": {},
+      "links": {},
+      "address": "KT1MBvFvMRrAYa3amQbWcJNWFLKZTfKMuh87",
+      "transactionHash": "opagLHJShYYwz4zCgx17WamF1WPkCH2bUU6nQrsqT4stTdCHuzK"
+    },
+    "NetXN2jFBKJHpgm": {
+      "events": {},
+      "links": {},
+      "address": "KT1MBELGHBesWjMM9xG2xA5aN472YMHmY3Mi",
+      "transactionHash": "op9HUcTAZ6mZ5iNB4zb3B8wyXwEW8gqBFTiJYx16NBQ1GaLTnE1"
+    },
+    "NetXibvJkLyMv1Y": {
+      "events": {},
+      "links": {},
+      "address": "KT1XMCWcTZtpp4K7Zdtv75sGF6Er6xfubPMB",
+      "transactionHash": "opMoWvn7RV6iMhoEahbCDaMVUiX232TvYnFVKTjgMhuTEQanpLU"
+    },
+    "NetXVhT6DyRiYy7": {
+      "events": {},
+      "links": {},
+      "address": "KT1EibmeV6mehwdhehLBXEeDFoE4QVVa3ykE",
+      "transactionHash": "ooXWMMJ9X35N2J7L2p43hga62qnXUHr1ZekaGMFeM92qgkQEdFi"
+    }
+  },
+  "schemaVersion": "3.2.0-tezos.1",
+  "updatedAt": "2020-12-05T11:59:46.557Z",
+  "networkType": "tezos"
+}
