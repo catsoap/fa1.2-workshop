@@ -1,15 +1,11 @@
 {
   "name": "@fa1.2-workshop/contracts",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
   "scripts": {
     "start-sandbox": "ganache-cli --flavor tezos --seed alice",
     "compile": "truffle compile",
     "migrate": "truffle migrate"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "fs-extra": "^9.0.1",
     "ganache-cli": "6.10.0-tezos.1",
