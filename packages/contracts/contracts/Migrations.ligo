@@ -1,11 +1,11 @@
-type migrations is record
+type migrations is record [ 
   owner : address;
   last_completed_migration : int;
-end
+]
 
 function main (const completed_migration: int ; var migrations : migrations) : (list(operation) * migrations) is
   block {
-    if sender =/= migrations.owner
+    if Tezos.sender =/= migrations.owner
     then
       skip
     else

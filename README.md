@@ -6,6 +6,7 @@ A monorepo for dapp development on Tezos.
 
 - npm 7
 - docker
+- truffle@tezos (`npm i -g truffle@tezos`)
 
 ## Installation
 
