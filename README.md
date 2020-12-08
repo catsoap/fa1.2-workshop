@@ -25,6 +25,7 @@ There are 2 packages:
 - npm run compile / compiles contracts
 - npm run migrate / migrates contracts
 - npm run start-dapp / starts the react app in the dapp package
+- npm run test-contracts / launch contracts tests
 
 ## Resources
 

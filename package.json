@@ -10,8 +10,5 @@
   },
   "workspaces": [
     "./packages/*"
-  ],
-  "dependencies": {
-    "@taquito/signer": "^7.1.0-beta.0"
-  }
+  ]
 }
