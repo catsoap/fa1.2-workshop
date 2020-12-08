@@ -5,9 +5,13 @@
     "compile": "cd packages/contracts && npm run compile && cd -",
     "migrate": "cd packages/contracts && npm run migrate && cd -",
     "start-sandbox": "cd packages/contracts && npm run start-sandbox",
-    "start-dapp": "cd packages/dapp && npm start"
+    "start-dapp": "cd packages/dapp && npm start",
+    "test-contracts": "cd packages/contracts && npm run test && cd -"
   },
   "workspaces": [
     "./packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@taquito/signer": "^7.1.0-beta.0"
+  }
 }

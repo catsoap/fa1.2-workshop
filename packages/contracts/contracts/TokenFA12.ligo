@@ -13,8 +13,8 @@ type approve_type is michelson_pair(address, "spender", nat, "value")
 type balance_type is michelson_pair(address, "owner", contract(nat), "")
 type allowance_type is michelson_pair(michelson_pair(address, "owner", address, "spender"), "", contract(nat), "")
 type total_supply_type is michelson_pair(unit, "", contract(nat), "")
-type mint_type is michelson_pair(unit, "", nat, "")
-type redeem_type is unit
+type mint_type is unit
+type redeem_type is nat
 
 type action is 
 | Transfer of transfer_type 
@@ -24,6 +24,7 @@ type action is
 | GetTotalSupply of total_supply_type
 | Mint of mint_type
 | Redeem of redeem_type
+| Default of mint_type
 
 function getAccount(const owner : address; const s : storage) : account is
 case s.ledger[owner] of 
@@ -77,27 +78,28 @@ block {
 function getTotalSupply(const receiver: contract(nat); const s : storage) : list(operation) is
 list [Tezos.transaction(s.totalSupply, 0mutez, receiver)]
 
-function mint(const nb : nat; const s : storage) : storage is 
+function mint(const s : storage) : storage is 
 block {
     const acc : account = getAccount(Tezos.sender, s);
-    acc.balance := acc.balance + nb;
+    acc.balance := acc.balance + Tezos.amount / 1mutez;
     s.ledger[Tezos.sender] := acc;
 
 } with s
 
-function redeem(const s : storage) : (list(operation) * storage) is 
+function redeem(const value : nat; const s : storage) : (list(operation) * storage) is 
 block {
-    const contract : contract (unit) = ( 
-    case (Tezos.get_contract_opt (Tezos.sender) : option(contract(unit))) of
-        Some (contract) -> contract
-        | None -> (failwith ("No contract.") : contract (unit))
-    end);
-
     const acc : account = getAccount(Tezos.sender, s);
-    const op : operation = Tezos.transaction(unit , acc.balance * 1tez, contract) ;
-    const operations : list(operation) = list op end ;
-    acc.balance := 0n
-} with ((operations : list(operation)), s)
+    if acc.balance < value then
+        failwith("NotEnoughBalance")
+    else skip;
+    acc.balance := abs(acc.balance - value);
+    s.ledger[Tezos.sender] := acc;
+    const receiver : contract (unit) = ( 
+    case (Tezos.get_contract_opt (Tezos.sender) : option(contract(unit))) of
+        | Some (contract) -> contract
+        | None -> (failwith ("InvalidContract") : contract (unit))
+    end);
+} with (list [Tezos.transaction(unit, value * 1mutez, receiver)], s)
 
 function main (const a : action; var s : storage) : (list(operation) * storage) is 
 case a of
@@ -106,6 +108,7 @@ case a of
 | GetBalance(v) -> (getBalance(v.0, v.1, s), s) 
 | GetAllowance(v) -> (getAllowance(v.0.0, v.0.1, v.1, s), s) 
 | GetTotalSupply(v) -> (getTotalSupply(v.1, s), s) 
-| Mint(v) -> ((nil: list(operation)), mint(v.1, s))
-| Redeem -> redeem(s)
+| Mint -> ((nil: list(operation)), mint(s))
+| Redeem(v) -> redeem(v, s)
+| Default(v) -> ((nil : list(operation)), mint(s))
 end

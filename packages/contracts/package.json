@@ -4,10 +4,14 @@
   "scripts": {
     "start-sandbox": "ganache-cli --flavor tezos --seed alice",
     "compile": "truffle compile",
-    "migrate": "truffle migrate"
+    "migrate": "truffle migrate",
+    "test": "truffle test"
   },
   "dependencies": {
     "@taquito/taquito": "^7.0.1-beta.0",
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "fs-extra": "^9.0.1",
     "ganache-cli": "6.10.0-tezos.1",
     "truffle": "^5.5.0-tezos.4"

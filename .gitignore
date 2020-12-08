@@ -19,3 +19,4 @@ npm-debug.log*
 # contracts
 /packages/contracts/deployments
 /packages/contracts/build
+/packages/contracts/node_modules
