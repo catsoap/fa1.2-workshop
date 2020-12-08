@@ -7,6 +7,7 @@
     "migrate": "truffle migrate"
   },
   "dependencies": {
+    "@taquito/taquito": "^7.0.1-beta.0",
     "fs-extra": "^9.0.1",
     "ganache-cli": "6.10.0-tezos.1",
     "truffle": "^5.5.0-tezos.4"
