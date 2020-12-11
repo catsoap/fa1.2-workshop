@@ -1,4 +1,3 @@
-/* global artifacts */
 const { MichelsonMap } = require('@taquito/taquito');
 
 const Token = artifacts.require('TokenFA12');

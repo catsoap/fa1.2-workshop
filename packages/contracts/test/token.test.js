@@ -1,4 +1,4 @@
-/* global artifacts contract it tezos  */
+/* eslint-env mocha */
 const TokenFA12 = artifacts.require('TokenFA12');
 const assert = require('assert');
 const { InMemorySigner } = require('@taquito/signer');
@@ -46,15 +46,27 @@ contract('TokenFA12', async () => {
     );
   });
 
-  it('should mint 1 token with 1tez', async () => {
+  it('should mint 1 token with 1 nanotez', async () => {
     const instance = await TokenFA12.deployed();
     const bobAddress = accounts.bob.pkh;
     tezos.setSignerProvider(
       await InMemorySigner.fromSecretKey(accounts.bob.sk),
     );
-    await instance.mint(null, { amount: '0.001' });
+    await instance.mint(null, { amount: '0.000001' });
     const storage = await instance.storage();
     const bobRecord = await storage.ledger.get(bobAddress);
-    assert.strictEqual(bobRecord.balance.toNumber(), 100001000);
+    assert.strictEqual(bobRecord.balance.toNumber(), 100000001);
+  });
+
+  it('should redeem 1 token', async () => {
+    const instance = await TokenFA12.deployed();
+    const bobAddress = accounts.bob.pkh;
+    tezos.setSignerProvider(
+      await InMemorySigner.fromSecretKey(accounts.bob.sk),
+    );
+    await instance.redeem(1);
+    const storage = await instance.storage();
+    const bobRecord = await storage.ledger.get(bobAddress);
+    assert.strictEqual(bobRecord.balance.toNumber(), 100000000);
   });
 });

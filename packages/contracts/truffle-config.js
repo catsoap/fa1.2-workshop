@@ -5,29 +5,29 @@ module.exports = {
   // for more details on how to specify configuration options!
   networks: {
     development: {
-      host: "http://localhost",
+      host: 'http://localhost',
       port: 8732,
-      network_id: "*",
+      network_id: '*',
       secretKey: alice.sk,
-      type: "tezos"
+      type: 'tezos',
     },
     carthagenet: {
-      host: "https://carthagenet.smartpy.io",
+      host: 'https://carthagenet.smartpy.io',
       port: 443,
-      network_id: "*",
-      type: "tezos"
+      network_id: '*',
+      type: 'tezos',
     },
     mainnet: {
-      host: "https://mainnet.smartpy.io",
+      host: 'https://mainnet.smartpy.io',
       port: 443,
-      network_id: "*",
-      type: "tezos"
+      network_id: '*',
+      type: 'tezos',
     },
     zeronet: {
-      host: "https://zeronet.smartpy.io",
+      host: 'https://zeronet.smartpy.io',
       port: 443,
-      network_id: "*",
-      type: "tezos"
-    }
-  }
+      network_id: '*',
+      type: 'tezos',
+    },
+  },
 };
