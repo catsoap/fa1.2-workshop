@@ -1,1 +1,1 @@
-declare module '@fa1.2-workshop/contracts/deployments/simple-storage';
+declare module "@fa1.2-workshop/contracts/deployments/token";

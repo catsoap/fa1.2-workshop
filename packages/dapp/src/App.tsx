@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReactComponent as Logo } from "./svg/Tezos_logo.svg";
-import contract from '@fa1.2-workshop/contracts/deployments/simple-storage';
+import contract from '@fa1.2-workshop/contracts/deployments/token';
 
 function App() {
   return (
