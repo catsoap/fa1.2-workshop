@@ -11,21 +11,21 @@ contract('TokenFA12', async () => {
     const aliceAddress = accounts.alice.pkh;
     const { totalSupply } = storage;
     const aliceRecord = await storage.ledger.get(aliceAddress);
-    assert.strictEqual(totalSupply.toNumber(), 1000000000);
-    assert.strictEqual(aliceRecord.balance.toNumber(), 1000000000);
+    assert.strictEqual(totalSupply.toNumber(), 10000000);
+    assert.strictEqual(aliceRecord.balance.toNumber(), 10000000);
   });
 
   it('should transfer tokens from Alice to Bob', async () => {
     const instance = await TokenFA12.deployed();
     const aliceAddress = accounts.alice.pkh;
     const bobAddress = accounts.bob.pkh;
-    const value = 100000000;
+    const value = 1000000;
     await instance.transfer(aliceAddress, bobAddress, value);
     const storage = await instance.storage();
     const aliceRecord = await storage.ledger.get(aliceAddress);
     const bobRecord = await storage.ledger.get(bobAddress);
-    assert.strictEqual(aliceRecord.balance.toNumber(), 900000000);
-    assert.strictEqual(bobRecord.balance.toNumber(), 100000000);
+    assert.strictEqual(aliceRecord.balance.toNumber(), 9000000);
+    assert.strictEqual(bobRecord.balance.toNumber(), 1000000);
   });
 
   it("should fail if transfer isn't approved", async () => {
@@ -55,7 +55,7 @@ contract('TokenFA12', async () => {
     await instance.mint(null, { amount: '0.000001' });
     const storage = await instance.storage();
     const bobRecord = await storage.ledger.get(bobAddress);
-    assert.strictEqual(bobRecord.balance.toNumber(), 100000001);
+    assert.strictEqual(bobRecord.balance.toNumber(), 1000001);
   });
 
   it('should redeem 1 token', async () => {
@@ -67,6 +67,6 @@ contract('TokenFA12', async () => {
     await instance.redeem(1);
     const storage = await instance.storage();
     const bobRecord = await storage.ledger.get(bobAddress);
-    assert.strictEqual(bobRecord.balance.toNumber(), 100000000);
+    assert.strictEqual(bobRecord.balance.toNumber(), 1000000);
   });
 });

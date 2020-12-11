@@ -4,7 +4,7 @@ const Token = artifacts.require('TokenFA12');
 const saveContractAddress = require('../helpers/saveContractAddress');
 
 module.exports = async (deployer, _network, accounts) => {
-  const totalSupply = '1000000000';
+  const totalSupply = '10000000';
   const storage = {
     totalSupply,
     ledger: MichelsonMap.fromLiteral({
