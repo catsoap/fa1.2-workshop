@@ -1,6 +1,7 @@
 {
   "name": "@fa1.2-workshop/monorepo",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "compile": "cd packages/contracts && npm run compile && cd -",
     "migrate": "cd packages/contracts && npm run migrate && cd -",

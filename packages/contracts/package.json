@@ -6,7 +6,8 @@
     "compile": "truffle compile",
     "migrate": "truffle migrate",
     "test": "truffle test",
-    "migrate-delphi": "truffle deploy --network delphinet"
+    "migrate-delphi": "truffle deploy --network delphinet",
+    "console": "truffle console"
   },
   "dependencies": {
     "@taquito/signer": "^7.1.0-beta.0",

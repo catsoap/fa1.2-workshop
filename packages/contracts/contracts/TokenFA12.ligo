@@ -1,13 +1,22 @@
 type account is record [
     balance: nat;
     allowances: map (address, nat);
+    staked: nat;
+    lastRewardPerShare: nat;
 ]
 
 type storage is record [
     totalSupply: nat;
+    totalStaked: nat;
+    rewardPerShare: nat;
+    lastUpdateTime: timestamp;
     ledger: big_map (address, account);
 ]
 
+const rewardPerSec : nat = 1000000n;
+
+type stake_type is nat
+type unstake_type is nat
 type transfer_type is michelson_pair(address, "from", michelson_pair(address, "to", nat, "value"), "")
 type approve_type is michelson_pair(address, "spender", nat, "value")
 type balance_type is michelson_pair(address, "owner", contract(nat), "")
@@ -17,6 +26,8 @@ type mint_type is unit
 type redeem_type is nat
 
 type action is 
+| Stake of stake_type
+| Unstake of unstake_type
 | Transfer of transfer_type 
 | Approve of approve_type
 | GetBalance of balance_type
@@ -30,6 +41,8 @@ function getAccount(const owner : address; const s : storage) : account is
 case s.ledger[owner] of 
 | None -> record [
     balance = 0n;
+    staked = 0n;
+    lastRewardPerShare = 0n;
     allowances = (map [] : map(address, nat));
 ]
 | Some(acc) -> acc
@@ -101,8 +114,49 @@ block {
     end);
 } with (list [Tezos.transaction(unit, value * 1mutez, receiver)], s)
 
+function updateReward(const s : storage) : storage is 
+block {
+    if s.lastUpdateTime < Tezos.now then block {
+        if s.totalStaked > 0n then block {
+            const deltaTime : nat = abs(Tezos.now - s.lastUpdateTime);
+            const newRewards : nat = deltaTime * rewardPerSec; 
+            s.rewardPerShare := s.rewardPerShare + (newRewards / s.totalStaked);
+        } else skip;
+        s.lastUpdateTime := Tezos.now;
+    } else skip;
+} with s
+
+function stake(const value : nat; const s :storage) : storage is 
+block {
+    s := updateReward(s);
+    const acc : account = getAccount(Tezos.sender, s);
+    const reward : nat = acc.staked * abs(s.rewardPerShare - acc.lastRewardPerShare);
+    acc.balance := acc.balance + reward;
+    if acc.balance < value then failwith("BalanceTooLow") else skip;
+    acc.balance := abs(acc.balance - value);
+    acc.staked := acc.staked + value;
+    acc.lastRewardPerShare := s.rewardPerShare;
+    s.totalStaked := s.totalStaked + value;
+    s.ledger[Tezos.sender] := acc;
+} with s
+
+function unstake(const value : nat; const s :storage) : storage is 
+block {
+    s := updateReward(s);
+    const acc : account = getAccount(Tezos.sender, s);
+    if acc.balance < value then failwith("BalanceTooLow") else skip;
+    const reward : nat = acc.staked * abs(s.rewardPerShare - acc.lastRewardPerShare);
+    acc.balance := acc.balance + reward + value;
+    acc.staked := abs(acc.staked - value);
+    acc.lastRewardPerShare := s.rewardPerShare;
+    s.totalStaked := abs(s.totalStaked - value);
+    s.ledger[Tezos.sender] := acc;
+} with s
+
 function main (const a : action; var s : storage) : (list(operation) * storage) is 
 case a of
+| Stake(v) -> ((nil: list(operation)), stake(v, s)) 
+| Unstake(v) -> ((nil: list(operation)), unstake(v, s))  
 | Transfer(v) -> ((nil: list(operation)), transfer(v.0, v.1.0, v.1.1, s)) 
 | Approve(v) -> ((nil: list(operation)), approve(v.0, v.1, s)) 
 | GetBalance(v) -> (getBalance(v.0, v.1, s), s) 
