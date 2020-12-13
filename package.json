@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "compile": "cd packages/contracts && npm run compile && cd -",
-    "migrate": "cd packages/contracts && npm run migrate && cd -",
-    "start-sandbox": "cd packages/contracts && npm run start-sandbox",
-    "start-dapp": "cd packages/dapp && npm start",
-    "test-contracts": "cd packages/contracts && npm run test && cd -"
+    "compile": "yarn workspace @fa1.2-workshop/contracts compile",
+    "migrate": "yarn workspace @fa1.2-workshop/contracts migrate",
+    "start-sandbox": "yarn workspace @fa1.2-workshop/contracts start-sandbox",
+    "start-dapp": "yarn workspace @fa1.2-workshop/dapp start",
+    "test-contracts": "yarn workspace @fa1.2-workshop/contracts test"
   },
   "workspaces": [
-    "./packages/*"
+    "dapp",
+    "contracts"
   ]
 }

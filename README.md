@@ -4,16 +4,16 @@ A monorepo for dapp development on Tezos.
 
 ## Requirements
 
-- npm 7
+- yarn
 - docker
 
 ## Installation
 
-`npm i --legacy-peer-deps`
+`yarn install`
 
 ## Packages
 
-npm workspaces are used in order to be able to import contract addresses.  
+yarn workspaces are used in order to be able to import contract addresses.  
 There are 2 packages:
 
 - dapp, created with `npx create-react-app dapp --template typescript`
@@ -21,11 +21,11 @@ There are 2 packages:
 
 ## Dev
 
-- npm run start-sandox / starts the flextesa sandbox from the contracts package
-- npm run compile / compiles contracts
-- npm run migrate / migrates contracts
-- npm run start-dapp / starts the react app in the dapp package
-- npm run test-contracts / launch contracts tests
+- yarn run start-sandox / starts the flextesa sandbox from the contracts package
+- yarn run compile / compiles contracts
+- yarn run migrate / migrates contracts
+- yarn run start-dapp / starts the react app in the dapp package
+- yarn run test-contracts / launch contracts tests
 
 ## Resources
 

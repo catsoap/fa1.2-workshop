@@ -1,10 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
 
-# production
-/build
+# compiled
+build
 
 # misc
 .DS_Store
@@ -17,6 +17,4 @@ npm-debug.log*
 .eslintcache
 
 # contracts
-/packages/contracts/deployments
-/packages/contracts/build
-/packages/contracts/node_modules
+deployments
