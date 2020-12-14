@@ -1,16 +1,20 @@
 {
   "name": "@fa1.2-workshop/monorepo",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "compile": "yarn workspace @fa1.2-workshop/contracts compile",
-    "migrate": "yarn workspace @fa1.2-workshop/contracts migrate",
-    "start-sandbox": "yarn workspace @fa1.2-workshop/contracts start-sandbox",
-    "start-dapp": "yarn workspace @fa1.2-workshop/dapp start",
-    "test-contracts": "yarn workspace @fa1.2-workshop/contracts test"
+    "compile": "cd contracts && npm run compile && cd -",
+    "migrate": "cd contracts && npm run migrate && cd -",
+    "start-sandbox": "cd contracts && npm run start-sandbox",
+    "start-dapp": "cd dapp && npm run start",
+    "test-contracts": "cd contracts && npm run test && cd -"
   },
   "workspaces": [
     "dapp",
     "contracts"
-  ]
+  ],
+  "dependencies": {
+    "npm-run-all": "^4.1.5",
+    "parcel": "^1.12.4"
+  }
 }
