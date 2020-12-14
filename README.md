@@ -4,7 +4,7 @@ A monorepo for dapp development on Tezos.
 
 ## Requirements
 
-- npm 7
+- yarn
 - bsb-platform
 - docker
 
@@ -14,16 +14,19 @@ A monorepo for dapp development on Tezos.
 
 ## Packages
 
-npm workspaces are used in order to be able to import contract addresses in the dapp.  
+yarn workspaces are used in order to be able to import contract addresses in the dapp.  
 There are 2 packages:
 
-- dapp, created with `bsb -init dapp -theme basic-reason`
+- dapp, created with `bsb -init react-test -theme react-starter`
 - contracts, created with `truffle unbox tezos-example`
 
-## Dev
+## Dapp Dev
 
-- npm run start-sandox / starts the flextesa sandbox from the contracts package
-- npm run compile / compiles contracts
-- npm run migrate / migrates contracts
-- npm run start-dapp / starts the dapp in the dapp package
-- npm run test-contracts / launch contracts tests
+Go into the dapp directory and enter `yarn start`, then in another terminal, run `yarn run server`.
+
+## Contract Dev
+
+- yarn run start-sandox / starts the flextesa sandbox from the contracts package
+- yarn run compile / compiles contracts
+- yarn run migrate / migrates contracts
+- yarn run test-contracts / launch contracts tests

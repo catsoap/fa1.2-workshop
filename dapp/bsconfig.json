@@ -1,19 +1,21 @@
 {
-  "name": "dapp",
-  "version": "0.1.0",
+  "name": "@fa1.2-workshop/dapp",
+  "reason": {
+    "react-jsx": 3
+  },
   "sources": {
     "dir": "src",
     "subdirs": true
   },
-  "package-specs": {
-    "module": "commonjs",
-    "in-source": true
-  },
+  "bsc-flags": ["-bs-super-errors", "-bs-no-version-header"],
+  "package-specs": [
+    {
+      "module": "commonjs",
+      "in-source": true
+    }
+  ],
   "suffix": ".bs.js",
-  "bs-dependencies": ["bs-webapi"],
-  "warnings": {
-    "error": "+101"
-  },
   "namespace": true,
+  "bs-dependencies": ["reason-react"],
   "refmt": 3
 }
