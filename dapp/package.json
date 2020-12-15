@@ -1,27 +1,46 @@
 {
   "name": "@fa1.2-workshop/dapp",
   "version": "0.1.0",
-  "scripts": {
-    "build": "bsb -make-world",
-    "start": "bsb -make-world -w -ws _ ",
-    "clean": "bsb -clean-world",
-    "webpack": "webpack -w",
-    "webpack:production": "NODE_ENV=production webpack",
-    "server": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "private": true,
   "dependencies": {
+    "@airgap/beacon-sdk": "^2.0.0",
+    "@taquito/beacon-wallet": "^7.1.0-beta.0",
+    "@taquito/taquito": "^7.1.0-beta.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "reason-react": "^0.9.1"
+    "react-scripts": "4.0.1",
+    "typescript": "^4.0.3",
+    "web-vitals": "^0.2.4"
   },
-  "devDependencies": {
-    "bs-platform": "^8.4.2",
-    "css-loader": "^5.0.0",
-    "html-webpack-plugin": "^4.5.0",
-    "style-loader": "^2.0.0",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
