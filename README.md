@@ -19,14 +19,10 @@ There are 2 packages:
 - dapp, created with `npx create-react-app dapp --template typescript`
 - contracts, created with `truffle unbox tezos-example`
 
-## Dapp Dev
+## Dev
 
-Go into the dapp directory and enter `yarn start`, then in another terminal, run `yarn run server`.
-
-## Contract Dev
-
+- yarn run start-dapp / starts the dapp from the dapp package
 - yarn run start-sandox / starts the flextesa sandbox from the contracts package
 - yarn run compile / compiles contracts
 - yarn run migrate / migrates contracts
 - yarn run test-contracts / launch contracts tests
-

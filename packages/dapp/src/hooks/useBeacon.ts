@@ -1,6 +1,8 @@
-import React from "react";
+import { useCallback, useState } from "react";
 import { BeaconWallet } from "@taquito/beacon-wallet";
+
 import { TezosToolkit } from "@taquito/taquito";
+import { NetworkType, PermissionScope } from "@airgap/beacon-sdk";
 
 const options = {
   name: "FA1.2 interaction dApp",
