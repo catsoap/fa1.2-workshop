@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "compile": "yarn workspace @fa1.2-workshop/contracts compile",
-    "migrate": "yarn workspace @fa1.2-workshop/contracts migrate",
-    "start-dapp": "yarn workspace @fa1.2-workshop/dapp start",
-    "start-sandbox": "yarn workspace @fa1.2-workshop/contracts start-sandbox",
-    "test-contracts": "yarn workspace @fa1.2-workshop/contracts test",
-    "lint": "yarn run lint.eslint && yarn run lint.prettier && yarn run lint.types",
-    "lint.eslint": "eslint . --ext ts",
-    "lint.prettier": "prettier -c src/**/*.ts",
-    "lint.types": "tsc --noEmit"
+    "contracts:compile": "yarn workspace @fa1.2-workshop/contracts compile",
+    "contracts:migrate": "yarn workspace @fa1.2-workshop/contracts migrate",
+    "contracts:test": "yarn workspace @fa1.2-workshop/contracts test",
+    "dapp:start": "yarn workspace @fa1.2-workshop/dapp start",
+    "sandbox:start": "yarn workspace @fa1.2-workshop/contracts start-sandbox",
+    "dapp:lint": "yarn run dapp:lint:eslint && yarn run dapp:lint:prettier && yarn run dapp:lint:types",
+    "dapp:lint:eslint": "yarn workspace @fa1.2-workshop/dapp eslint . --ext ts,tsx",
+    "dapp:lint:prettier": "yarn workspace @fa1.2-workshop/dapp prettier -c src/**/*.{ts,tsx}",
+    "dapp:lint:types": "yarn workspace @fa1.2-workshop/dapp tsc --noEmit"
   },
   "workspaces": {
     "packages": [

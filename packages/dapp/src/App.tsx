@@ -1,7 +1,7 @@
-import React from "react";
-import contract from "@fa1.2-workshop/contracts/deployments/token";
-import "./App.css";
-import useBeacon from "./hooks/useBeacon";
+import React from 'react';
+import contract from '@fa1.2-workshop/contracts/deployments/token';
+import './App.css';
+import useBeacon from './hooks/useBeacon';
 
 function App() {
     const { connect, pkh } = useBeacon();
