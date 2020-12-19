@@ -5,9 +5,11 @@
   "scripts": {
     "contracts:compile": "yarn workspace @fa1.2-workshop/contracts compile",
     "contracts:migrate": "yarn workspace @fa1.2-workshop/contracts migrate",
+    "contracts:migrate:delphi": "yarn workspace @fa1.2-workshop/contracts migrate:delphi",
     "contracts:test": "yarn workspace @fa1.2-workshop/contracts test",
     "dapp:start": "yarn workspace @fa1.2-workshop/dapp start",
-    "sandbox:start": "yarn workspace @fa1.2-workshop/contracts start-sandbox",
+    "dapp:build": "yarn workspace @fa1.2-workshop/dapp build",
+    "sandbox:start": "yarn workspace @fa1.2-workshop/contracts start:sandbox",
     "dapp:lint": "yarn run dapp:lint:eslint && yarn run dapp:lint:prettier && yarn run dapp:lint:types",
     "dapp:lint:eslint": "yarn workspace @fa1.2-workshop/dapp eslint . --ext ts,tsx",
     "dapp:lint:prettier": "yarn workspace @fa1.2-workshop/dapp prettier -c src/**/*.{ts,tsx}",

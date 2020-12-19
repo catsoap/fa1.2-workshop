@@ -1,0 +1,60 @@
+name: ci
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build an Test
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: yarn install --prod
+      - name: Start Sandbox
+        run: npm run contracts:sandbox:start &
+      - name: Wait 15 seconds for sandbox
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '15s'
+      - name: Test
+        run: yarn run contracts:test
+      - name: Deploy contract
+        run: yarn run contracts:migrate:delphi
+      - name: Build Dapp
+        run: yarn run dapp:build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: ./packages/dapp/build
+
+  deploy:
+    name: Deploy dapp
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: ./packages/dapp/build
+      - name: Deploy
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+

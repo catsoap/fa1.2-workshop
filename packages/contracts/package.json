@@ -2,11 +2,11 @@
   "name": "@fa1.2-workshop/contracts",
   "version": "0.1.0",
   "scripts": {
-    "start-sandbox": "ganache-cli --flavor tezos --seed alice",
+    "start:sandbox": "ganache-cli --flavor tezos --seed alice",
     "compile": "truffle compile",
     "migrate": "truffle migrate",
+    "migrate:delphi": "truffle deploy --network delphinet",
     "test": "truffle test",
-    "migrate-delphi": "truffle deploy --network delphinet",
     "console": "truffle console"
   },
   "dependencies": {
