@@ -23,8 +23,8 @@ There are 2 packages:
 
 ## Dev
 
-- yarn run start-dapp / starts the dapp from the dapp package
-- yarn run start-sandox / starts the flextesa sandbox from the contracts package
-- yarn run compile / compiles contracts
-- yarn run migrate / migrates contracts
-- yarn run test-contracts / launch contracts tests
+- yarn run dapp:start / starts the dapp from the dapp package
+- yarn run sandox:start / starts the flextesa sandbox from the contracts package
+- yarn run contracts:compile / compiles contracts
+- yarn run contracts:migrate / migrates contracts
+- yarn run contracts:test / launch contracts tests
