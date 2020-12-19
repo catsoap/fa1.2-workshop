@@ -1,5 +1,7 @@
 # FA1.2 Workshop
 
+![ci](https://github.com/catsoap/fa1.2-workshop/workflows/ci/badge.svg)
+
 A monorepo for dapp development on Tezos.
 
 ## Requirements
