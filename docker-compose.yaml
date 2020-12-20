@@ -7,7 +7,7 @@ services:
     ports:
       - "8732:20000"
     environment:
-      - block_time=3
+      - block_time=1
     volumes:
       - ./tezos-client.config.json:/root/.tezos-client/config
 

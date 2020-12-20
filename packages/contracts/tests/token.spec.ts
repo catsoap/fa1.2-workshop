@@ -7,6 +7,7 @@ import { BigNumber } from 'bignumber.js';
 import token from '../deployments/token';
 import getConfig, { NetworkConfig } from '../config';
 import accounts from '../scripts/sandbox/accounts';
+import sleep from '../helpers/sleep';
 
 const alice = accounts['alice'];
 const bob = accounts['bob'];
@@ -43,6 +44,7 @@ describe('Token', async () => {
         const instance = await Tezos.contract.at(token);
         const value = 1000000;
         await instance.methods.transfer(aliceAddress, bobAddress, value).send();
+        await sleep(5000);
         const storage: Storage = await instance.storage();
         const aliceRecord: any = await storage.ledger.get(aliceAddress);
         const bobRecord: any = await storage.ledger.get(bobAddress);
