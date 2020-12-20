@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  flextesa:
+    image: "tqtezos/flextesa:20201214"
+    command: delphibox start 
+    ports:
+      - "8732:20000"
+    environment:
+      - block_time=4
+    volumes:
+      - ./tezos-client.config.json:/root/.tezos-client/config
+      - $MICHELSON_DIR:/michelson
+
