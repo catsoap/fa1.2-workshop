@@ -25,7 +25,7 @@ run() {
     for file in $migrations; do
         f=$(basename "$file")
         echo "$f"
-        yarn run ts-node "${MIGRATIONS_DIR}/${f}" "${env}"
+        yarn ts-node "${MIGRATIONS_DIR}/${f}" "${env}"
     done
 }
 

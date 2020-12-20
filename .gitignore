@@ -20,4 +20,5 @@ npm-debug.log*
 /packages/contracts/michelson
 
 # contracts
-deployments
+/packages/contracts/deployments
+!/packages/contracts/deployments/.keep
