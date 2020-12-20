@@ -36,12 +36,12 @@ run() {
     fi ; 
 
     name=$(basename "$source" | cut -d. -f1)
-    output_file="/output/${name}.${exts[${format}]}"
+    output_file="${name}.${exts[${format}]}"
 
     docker run --rm -u "$(id -u):$(id -g)" -v "${SOURCE_DIR}:/project" -v "${OUTPUT_DIR}:/output" -w /project \
-        ${LIGO_IMAGE} compile-contract "${source}" main --michelson-format="${format}" --output-file="${output_file}" 
+        ${LIGO_IMAGE} compile-contract "${source}" main --michelson-format="${format}" --output-file="/output/${output_file}" 
 
-    echo "[OK] ${output_file}"
+    echo "[OK] ${OUTPUT_DIR}/${output_file}"
 }
 
 run
