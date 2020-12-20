@@ -17,10 +17,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Dependencies
         run: yarn install --prod
+      - name: Compile contract
+        run: yarn contracts:compile token.ligo
       - name: Deploy contract
-        run: yarn run contracts:deploy delphi
+        run: yarn contracts:deploy delphi
       - name: Build Dapp
-        run: yarn run dapp:build
+        run: yarn dapp:build
       - name: Archive Production Artifact
         uses: actions/upload-artifact@v2
         with:

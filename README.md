@@ -18,13 +18,12 @@ A monorepo for dapp development on Tezos.
 yarn workspaces are used in order to be able to import contract addresses in the dapp.  
 There are 2 packages:
 
-- dapp, created with `npx create-react-app dapp --template typescript`
-- contracts, created with `truffle unbox tezos-example`
+- dapp: React app
+- contracts: Custom scripts with taquito, test with pytezos, contract with ligo
 
 ## Dev
 
-- yarn run dapp:start / starts the dapp from the dapp package
-- yarn run sandox:start / starts the flextesa sandbox from the contracts package
-- yarn run contracts:compile / compiles contracts
-- yarn run contracts:migrate / migrates contracts
-- yarn run contracts:test / launch contracts tests
+- yarn dapp:start / starts the dapp from the dapp package
+- yarn sandox:start / starts the flextesa sandbox
+- yarn contracts:compile token.ligo / compiles a contract with ligo
+- yarn contracts:deploy env / deploy contracts
