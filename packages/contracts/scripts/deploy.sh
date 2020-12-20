@@ -2,7 +2,7 @@
 
 set -e
 
-network="$1"
+env="$1"
 
 usage ()
 {
@@ -10,7 +10,7 @@ usage ()
     exit 1
 }
 
-if [ -z "$network" ]
+if [ -z "$env" ]
 then
     usage
     exit 1
@@ -25,7 +25,7 @@ run() {
     for file in $migrations; do
         f=$(basename "$file")
         echo "$f"
-        yarn run ts-node "${MIGRATIONS_DIR}/${f}" "${network}"
+        yarn run ts-node "${MIGRATIONS_DIR}/${f}" "${env}"
     done
 }
 

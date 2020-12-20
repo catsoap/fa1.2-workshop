@@ -10,5 +10,4 @@ services:
       - block_time=4
     volumes:
       - ./tezos-client.config.json:/root/.tezos-client/config
-      - $MICHELSON_DIR:/michelson
 
