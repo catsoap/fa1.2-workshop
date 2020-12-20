@@ -7,7 +7,7 @@ import code from '../build/token.json';
 const args = process.argv;
 const env = args[2];
 
-if (env == undefined || !['dev', 'delphi'].includes(env)) {
+if (env == undefined || !['dev', 'testnet', 'next'].includes(env)) {
     console.log('please supply valid env.');
     process.exit(1);
 }

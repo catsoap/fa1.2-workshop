@@ -19,7 +19,7 @@ yarn workspaces are used in order to be able to import contract addresses in the
 There are 2 packages:
 
 - dapp: React app
-- contracts: Custom scripts with taquito, test with pytezos, contract with ligo
+- contracts: Custom scripts with taquito, test with mocha/chai, contract with ligo
 
 ## Dev
 

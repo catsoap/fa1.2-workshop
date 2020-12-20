@@ -20,7 +20,7 @@ jobs:
       - name: Compile contract
         run: yarn contracts:compile token.ligo
       - name: Deploy contract
-        run: yarn contracts:deploy delphi
+        run: yarn contracts:deploy testnet
       - name: Build Dapp
         run: yarn dapp:build
       - name: Archive Production Artifact

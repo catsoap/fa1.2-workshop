@@ -5,12 +5,14 @@
   "scripts": {
     "contracts:compile": "yarn workspace @fa1.2-workshop/contracts compile",
     "contracts:deploy": "yarn workspace @fa1.2-workshop/contracts deploy",
+    "contracts:test": "yarn workspace @fa1.2-workshop/contracts test",
     "dapp:start": "yarn workspace @fa1.2-workshop/dapp start",
     "dapp:build": "yarn workspace @fa1.2-workshop/dapp build",
     "dapp:lint": "yarn dapp:lint:eslint && yarn dapp:lint:prettier && yarn dapp:lint:types",
     "dapp:lint:eslint": "yarn workspace @fa1.2-workshop/dapp eslint . --ext ts,tsx",
     "dapp:lint:prettier": "yarn workspace @fa1.2-workshop/dapp prettier -c src/**/*.{ts,tsx}",
     "dapp:lint:types": "yarn workspace @fa1.2-workshop/dapp tsc --noEmit",
+    "sandbox:shell": "docker-compose exec flextesa ash",
     "sandbox:start": "docker-compose up -d && docker-compose exec flextesa delphibox info",
     "sandbox:stop": "docker-compose stop"
   },

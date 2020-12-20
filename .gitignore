@@ -15,9 +15,7 @@ build
 
 npm-debug.log*
 .eslintcache
-.pytest_cache
 .firebase
-/packages/contracts/michelson
 
 # contracts
 /packages/contracts/deployments
