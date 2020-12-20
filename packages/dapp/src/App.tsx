@@ -26,6 +26,7 @@ function App() {
                     )}
                 </div>
             </div>
+            <p>{contract}</p>
         </div>
     );
 }

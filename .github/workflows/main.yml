@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build an Test
+    name: Build and Test
     runs-on: ubuntu-18.04
     steps:
       - name: Setup node
