@@ -1,17 +1,18 @@
-## Dapp
-
-## Smart contract
+# Smart contracts Tests
 
 ### Requirements
 
-You will need python3.6 and pipenv (installed by `pip install pipenv`).
+You will need python3.6 and pipenv (installed by `pip install pipenv`).  
 And other required libs (see [pytezos doc](https://pytezos.org/quick_start.html))
+
+You need the contract code, which can be compiled with this command
+(from project's root): `yarn contracts:compile token.ligo format`
 
 #### Local testing
 
-- Create your pipenv environnement
-  > pipenv install
-- Load your pipenv
-  > pipenv shell
-- Run the tests
-  > pytest -v .
+1.  Create your pipenv environnement  
+    `pipenv install`
+2.  Load your pipenv  
+    `pipenv shell`
+3.  Run the tests  
+    `pytest -v .`
