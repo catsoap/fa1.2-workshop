@@ -23,6 +23,8 @@ There are 2 packages:
 
 ## Dev
 
+Before running dapp, create packages/dapp/.env after the .dist.
+
 - yarn dapp:start / starts the dapp from the dapp package
 - yarn sandox:start / starts the flextesa sandbox
 - yarn contracts:compile token.ligo / compiles a contract with ligo

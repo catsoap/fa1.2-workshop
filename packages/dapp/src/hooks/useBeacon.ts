@@ -3,6 +3,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 
 import { TezosToolkit } from '@taquito/taquito';
 import { NetworkType, PermissionScope } from '@airgap/beacon-sdk';
+import { RPC } from '../config';
 
 const options = {
     name: 'FA1.2 interaction dApp',
@@ -39,7 +40,7 @@ class LambdaViewSigner {
     }
 }
 
-const Tezos = new TezosToolkit('https://delphinet-tezos.giganode.io');
+const Tezos = new TezosToolkit(RPC);
 const wallet = new BeaconWallet(options);
 
 Tezos.setWalletProvider(wallet);
