@@ -5,10 +5,10 @@ import { BigMapAbstraction, TezosToolkit } from '@taquito/taquito';
 import { TransferParams } from '@taquito/taquito/dist/types/operations/types';
 import { InMemorySigner } from '@taquito/signer';
 import { BigNumber } from 'bignumber.js';
-import token from '../deployments/token';
-import getConfig, { NetworkConfig } from '../config';
-import accounts from '../scripts/sandbox/accounts';
-import sleep from '../helpers/sleep';
+import token from '../../deployments/token';
+import getConfig, { NetworkConfig } from '../../config';
+import accounts from '../../scripts/sandbox/accounts';
+import sleep from '../../helpers/sleep';
 
 const alice = accounts['alice'];
 const bob = accounts['bob'];
