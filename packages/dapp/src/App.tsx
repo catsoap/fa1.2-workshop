@@ -32,7 +32,7 @@ function App() {
     }, []);
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto py-4">
             <div className="flex">
                 <span className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
                     Welcome !

@@ -17,7 +17,7 @@ const rewardPerSec : nat = 1000000n;
 
 type stake_type is nat
 type unstake_type is nat
-type transfer_type is michelson_pair(address, "from", michelson_pair(address, "to", nat, "value"), "")
+type transfer_type is michelson_pair(address, "source", michelson_pair(address, "receiver", nat, "value"), "")
 type approve_type is michelson_pair(address, "spender", nat, "value")
 type balance_type is michelson_pair(address, "owner", contract(nat), "")
 type allowance_type is michelson_pair(michelson_pair(address, "owner", address, "spender"), "", contract(nat), "")

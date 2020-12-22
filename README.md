@@ -29,3 +29,11 @@ Before running dapp, create packages/dapp/.env after the .dist.
 - yarn sandox:start / starts the flextesa sandbox
 - yarn contracts:compile token.ligo / compiles a contract with ligo
 - yarn contracts:deploy env / deploy contracts
+
+## Sandbox
+
+You can enter the sandbox with `sandbox:shell`.  
+To import the default secret keys, run:
+
+- `tezos-client import secret key alice unencrypted:edsk3QoqBuvdamxouPhin7swCvkQNgq4jP5KZPbwWNnwdZpSpJiEbq`
+- `tezos-client import secret key bob unencrypted:edsk3RFfvaFaxbHx8BMtEW1rKQcPtDML3LXjNqMNLCzC3wLC1bWbAt`
