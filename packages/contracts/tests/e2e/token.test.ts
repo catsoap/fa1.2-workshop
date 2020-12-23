@@ -24,8 +24,8 @@ type Storage = {
 async function bakeBlocks(count) {
     const pkh = await Tezos.signer.publicKeyHash();
     for (let i = 0; i <= count; i += 1) {
-        const operation = await Tezos.contract.transfer({ to: pkh, amount: 1 });
-        await operation.confirmation();
+        const op = await Tezos.contract.transfer({ to: pkh, amount: 1 });
+        await op.confirmation(1, 1);
     }
 }
 
@@ -82,84 +82,94 @@ describe('Token', async () => {
         assert.strictEqual(bobRecord.balance.toNumber(), 101);
     });
 
-    // it('should redeem 2 tokens', async () => {
-    //     const instance = await TokenFA12.deployed();
-    //     const bobAddress = accounts.bob.pkh;
-    //     tezos.setSignerProvider(await InMemorySigner.fromSecretKey(accounts.bob.sk));
-    //     await instance.redeem(2);
-    //     const storage = await instance.storage();
-    //     const bobRecord = await storage.ledger.get(bobAddress);
-    //     assert.strictEqual(bobRecord.balance.toNumber(), 1000000);
-    // });
+    it('should redeem 1 token', async () => {
+        const instance = await Tezos.contract.at(token);
+        const signer = await InMemorySigner.fromSecretKey(bob.sk);
+        Tezos.setProvider({ signer });
+        const op = await instance.methods.redeem(1).send();
+        await op.confirmation(1, 1);
+        const storage: Storage = await instance.storage();
+        const bobRecord: any = await storage.ledger.get(bob.pkh);
+        assert.strictEqual(bobRecord.balance.toNumber(), 100);
+    });
 
-    // it('should stake the tokens for Alice', async () => {
-    //     tezos.setSignerProvider(await InMemorySigner.fromSecretKey(accounts.alice.sk));
-    //     const instance = await TokenFA12.deployed();
-    //     const aliceAddress = accounts.alice.pkh;
-    //     const stakedAmount = 1000000;
-    //     const currentTime = Date.parse((await tezos.rpc.getBlockHeader()).timestamp);
-    //     await instance.stake(stakedAmount);
-    //     const storage = await instance.storage();
-    //     const aliceRecord = await storage.ledger.get(aliceAddress);
-    //     assert.strictEqual(aliceRecord.balance.toNumber(), 8000000);
-    //     assert.strictEqual(aliceRecord.staked.toNumber(), stakedAmount);
-    //     assert.strictEqual(aliceRecord.lastRewardPerShare.toNumber(), 0);
-    //     assert.strictEqual(storage.totalSupply.toNumber(), 10000000);
-    //     assert.strictEqual(storage.totalStaked.toNumber(), stakedAmount);
-    //     assert.strictEqual(storage.rewardPerShare.toNumber(), 0);
-    //     assert.strictEqual(Date.parse(storage.lastUpdateTime), currentTime);
-    // });
+    it('should stake the tokens for Alice', async () => {
+        const instance = await Tezos.contract.at(token);
+        const signer = await InMemorySigner.fromSecretKey(alice.sk);
+        Tezos.setProvider({ signer });
+        const stakedAmount = 100;
+        let currentTime = Date.parse((await Tezos.rpc.getBlockHeader()).timestamp);
+        currentTime += 1000;
+        const op = await instance.methods.stake(stakedAmount).send();
+        await op.confirmation(1, 1);
+        const storage: Storage = await instance.storage();
+        const aliceRecord: any = await storage.ledger.get(alice.pkh);
+        assert.strictEqual(aliceRecord.balance.toNumber(), 800);
+        assert.strictEqual(aliceRecord.staked.toNumber(), stakedAmount);
+        assert.strictEqual(aliceRecord.lastRewardPerShare.toNumber(), 0);
+        assert.strictEqual(storage.totalSupply.toNumber(), 1000);
+        assert.strictEqual(storage.totalStaked.toNumber(), stakedAmount);
+        assert.strictEqual(storage.rewardPerShare.toNumber(), 0);
+        assert.strictEqual(Date.parse(storage.lastUpdateTime), currentTime);
+    });
 
-    // it('should assess the reward for Alice', async () => {
-    //     const stakedAmount = 1000000;
-    //     const instance = await TokenFA12.deployed();
-    //     const aliceAddress = accounts.alice.pkh;
-    //     const prevStorage = await instance.storage();
-    //     await bakeBlocks(3);
-    //     const currentTime = Date.parse((await tezos.rpc.getBlockHeader()).timestamp);
-    //     const deltaTime = (currentTime - Date.parse(prevStorage.lastUpdateTime)) / 1000;
-    //     await instance.stake(0);
-    //     const rewardPerSec = 1000000;
-    //     const reward = rewardPerSec * deltaTime;
-    //     const rewardPerShare = Math.floor(reward / stakedAmount);
-    //     const aliceReward = stakedAmount * rewardPerShare;
-    //     const storage = await instance.storage();
-    //     const aliceRecord = await storage.ledger.get(aliceAddress);
-    //     assert.strictEqual(aliceRecord.balance.toNumber(), aliceReward + 8000000);
-    //     assert.strictEqual(aliceRecord.staked.toNumber(), stakedAmount);
-    //     assert.strictEqual(aliceRecord.lastRewardPerShare.toNumber(), rewardPerShare);
-    //     assert.strictEqual(storage.totalSupply.toNumber(), 10000000);
-    //     assert.strictEqual(storage.totalStaked.toNumber(), stakedAmount);
-    //     assert.strictEqual(storage.rewardPerShare.toNumber(), rewardPerShare);
-    // });
+    it('should assess the reward for Alice', async () => {
+        const stakedAmount = 100;
+        const instance = await Tezos.contract.at(token);
+        const signer = await InMemorySigner.fromSecretKey(alice.sk);
+        Tezos.setProvider({ signer });
+        const prevStorage: Storage = await instance.storage();
+        await bakeBlocks(3);
+        const currentTime = Date.parse((await Tezos.rpc.getBlockHeader()).timestamp);
+        let deltaTime = (currentTime - Date.parse(prevStorage.lastUpdateTime)) / 1000;
+        deltaTime += 1;
+        const op = await instance.methods.stake(0).send();
+        await op.confirmation(1, 1);
+        const rewardPerSec = 1000;
+        const reward = rewardPerSec * deltaTime;
+        const rewardPerShare = Math.floor(reward / stakedAmount);
+        const aliceReward = stakedAmount * rewardPerShare;
+        const storage: Storage = await instance.storage();
+        const aliceRecord: any = await storage.ledger.get(alice.pkh);
+        assert.strictEqual(aliceRecord.balance.toNumber(), aliceReward + 800);
+        assert.strictEqual(aliceRecord.staked.toNumber(), stakedAmount);
+        assert.strictEqual(aliceRecord.lastRewardPerShare.toNumber(), rewardPerShare);
+        assert.strictEqual(storage.totalSupply.toNumber(), 1000);
+        assert.strictEqual(storage.totalStaked.toNumber(), stakedAmount);
+        assert.strictEqual(storage.rewardPerShare.toNumber(), rewardPerShare);
+    });
 
-    // it('should unstake tokens for Alice', async () => {
-    //     const stakedAmount = 1000000;
-    //     const instance = await TokenFA12.deployed();
-    //     const aliceAddress = accounts.alice.pkh;
-    //     await bakeBlocks(3);
-    //     const prevStorage = await instance.storage();
-    //     const prevAliceRecord = await prevStorage.ledger.get(aliceAddress);
-    //     const prevAliceBalance = prevAliceRecord.balance.toNumber();
-    //     const currentTime = Date.parse((await tezos.rpc.getBlockHeader()).timestamp);
-    //     const deltaTime = (currentTime - Date.parse(prevStorage.lastUpdateTime)) / 1000;
-    //     await instance.unstake(stakedAmount);
-    //     const rewardPerSec = 1000000;
-    //     const reward = rewardPerSec * deltaTime;
-    //     const rewardPerShare =
-    //         Math.floor(reward / stakedAmount) + prevStorage.rewardPerShare.toNumber();
-    //     const aliceReward =
-    //         stakedAmount * (rewardPerShare - prevAliceRecord.lastRewardPerShare.toNumber());
-    //     const storage = await instance.storage();
-    //     const aliceRecord = await storage.ledger.get(aliceAddress);
-    //     assert.strictEqual(
-    //         aliceRecord.balance.toNumber(),
-    //         aliceReward + stakedAmount + prevAliceBalance,
-    //     );
-    //     assert.strictEqual(aliceRecord.staked.toNumber(), 0);
-    //     assert.strictEqual(aliceRecord.lastRewardPerShare.toNumber(), rewardPerShare);
-    //     assert.strictEqual(storage.totalSupply.toNumber(), 10000000);
-    //     assert.strictEqual(storage.totalStaked.toNumber(), 0);
-    //     assert.strictEqual(storage.rewardPerShare.toNumber(), rewardPerShare);
-    // });
+    it('should unstake tokens for Alice', async () => {
+        const stakedAmount = 100;
+        const instance = await Tezos.contract.at(token);
+        const signer = await InMemorySigner.fromSecretKey(alice.sk);
+        Tezos.setProvider({ signer });
+        await bakeBlocks(3);
+        const prevStorage: Storage = await instance.storage();
+        const prevAliceRecord: any = await prevStorage.ledger.get(alice.pkh);
+        const prevAliceBalance = prevAliceRecord.balance.toNumber();
+        let currentTime = Date.parse((await Tezos.rpc.getBlockHeader()).timestamp);
+        let deltaTime = (currentTime - Date.parse(prevStorage.lastUpdateTime)) / 1000;
+        currentTime += 1;
+        deltaTime += 1;
+        const op = await instance.methods.unstake(stakedAmount).send();
+        await op.confirmation(1, 1);
+        const rewardPerSec = 1000;
+        const reward = rewardPerSec * deltaTime;
+        const rewardPerShare =
+            Math.floor(reward / stakedAmount) + prevStorage.rewardPerShare.toNumber();
+        const aliceReward =
+            stakedAmount * (rewardPerShare - prevAliceRecord.lastRewardPerShare.toNumber());
+        const storage: Storage = await instance.storage();
+        const aliceRecord: any = await storage.ledger.get(alice.pkh);
+        assert.strictEqual(
+            aliceRecord.balance.toNumber(),
+            aliceReward + stakedAmount + prevAliceBalance,
+        );
+        assert.strictEqual(aliceRecord.staked.toNumber(), 0);
+        assert.strictEqual(aliceRecord.lastRewardPerShare.toNumber(), rewardPerShare);
+        assert.strictEqual(storage.totalSupply.toNumber(), 1000);
+        assert.strictEqual(storage.totalStaked.toNumber(), 0);
+        assert.strictEqual(storage.rewardPerShare.toNumber(), rewardPerShare);
+    });
 });

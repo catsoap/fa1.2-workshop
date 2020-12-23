@@ -13,7 +13,7 @@ type storage is record [
     ledger : big_map (address, account);
 ]
 
-const rewardPerSec : nat = 1000000n;
+const rewardPerSec : nat = 1000n;
 
 type transfer_type is michelson_pair(address, "sender", michelson_pair(address, "receiver", nat, "value"), "")
 type approve_type is michelson_pair(address, "spender", nat, "value")

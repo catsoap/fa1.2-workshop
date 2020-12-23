@@ -30,6 +30,8 @@ Before running dapp, create packages/dapp/.env after the .dist.
 - yarn contracts:compile token.ligo / compiles a contract with ligo
 - yarn contracts:deploy env / deploy contracts
 
+To compile, deploy and launch tests in a row, run `yarn contracts:compile token.ligo && yarn run contracts:deploy dev 1 && yarn contracts:test`
+
 ## Sandbox
 
 You can enter the sandbox with `sandbox:shell`.  
