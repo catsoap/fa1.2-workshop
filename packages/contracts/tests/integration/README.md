@@ -1,6 +1,6 @@
-# Smart contracts Tests
+# Michelson integration tests
 
-### Requirements
+## Requirements
 
 You will need python3.6 and pipenv (installed by `pip install pipenv`).  
 And other required libs (see [pytezos doc](https://pytezos.org/quick_start.html))
@@ -8,7 +8,7 @@ And other required libs (see [pytezos doc](https://pytezos.org/quick_start.html)
 You need the contract code, which can be compiled with this command
 (from project's root): `yarn contracts:compile token.ligo format`
 
-#### Local testing
+## Local testing
 
 1.  Create your pipenv environnement  
     `pipenv install`
@@ -16,3 +16,7 @@ You need the contract code, which can be compiled with this command
     `pipenv shell`
 3.  Run the tests  
     `pytest -v .`
+
+## Resources
+
+-   https://pytezos.org/integration_tests.html?highlight=contractcallresult
