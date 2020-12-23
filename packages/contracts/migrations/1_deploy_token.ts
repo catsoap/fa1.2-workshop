@@ -3,7 +3,9 @@ import { InMemorySigner } from '@taquito/signer';
 import saveContractAddress from '../helpers/saveContractAddress';
 import getConfig, { NetworkConfig } from '../config';
 import code from '../build/token.json';
+import getAccounts, { Account } from '../accounts';
 
+const alice: Account = getAccounts('dev')['alice'];
 const args = process.argv;
 const env = args[2];
 
@@ -20,7 +22,7 @@ const deploy = async () => {
         const signer = await InMemorySigner.fromSecretKey(conf.secretKey);
         Tezos.setProvider({ signer });
 
-        const totalSupply = '10000000';
+        const totalSupply = '1000';
         const totalStaked = '0';
         const rewardPerShare = '0';
         const lastUpdateTime = '0';
@@ -30,7 +32,7 @@ const deploy = async () => {
             lastUpdateTime,
             totalSupply,
             ledger: MichelsonMap.fromLiteral({
-                [conf.publicKeyHash]: {
+                [alice.pkh]: {
                     balance: totalSupply,
                     staked: totalStaked,
                     lastRewardPerShare: lastUpdateTime,

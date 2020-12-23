@@ -1,19 +1,14 @@
-import { expect } from 'chai';
 import 'mocha';
 import * as assert from 'assert';
 import { BigMapAbstraction, TezosToolkit } from '@taquito/taquito';
-import { TransferParams } from '@taquito/taquito/dist/types/operations/types';
 import { InMemorySigner } from '@taquito/signer';
 import { BigNumber } from 'bignumber.js';
 import token from '../../deployments/token';
 import getConfig, { NetworkConfig } from '../../config';
-import accounts from '../../scripts/sandbox/accounts';
-import sleep from '../../helpers/sleep';
+import getAccounts, { Account } from '../../accounts';
 
-const alice = accounts['alice'];
-const bob = accounts['bob'];
-const aliceAddress = accounts.alice.pkh;
-const bobAddress = accounts.bob.pkh;
+const alice: Account = getAccounts('dev')['alice'];
+const bob: Account = getAccounts('dev')['bob'];
 
 const conf: NetworkConfig = getConfig('dev');
 const Tezos = new TezosToolkit(conf.node);
@@ -26,6 +21,14 @@ type Storage = {
     ledger: BigMapAbstraction;
 };
 
+async function bakeBlocks(count) {
+    const pkh = await Tezos.signer.publicKeyHash();
+    for (let i = 0; i <= count; i += 1) {
+        const operation = await Tezos.contract.transfer({ to: pkh, amount: 1 });
+        await operation.confirmation();
+    }
+}
+
 beforeEach(async () => {
     const signer = await InMemorySigner.fromSecretKey(alice.sk);
     Tezos.setProvider({ signer });
@@ -36,21 +39,21 @@ describe('Token', async () => {
         const instance = await Tezos.contract.at(token);
         const storage: Storage = await instance.storage();
         const { totalSupply } = storage;
-        const aliceRecord: any = await storage.ledger.get(aliceAddress);
-        assert.strictEqual(totalSupply.toNumber(), 10000000);
-        assert.strictEqual(aliceRecord.balance.toNumber(), 10000000);
+        const aliceRecord: any = await storage.ledger.get(alice.pkh);
+        assert.strictEqual(totalSupply.toNumber(), 1000);
+        assert.strictEqual(aliceRecord.balance.toNumber(), 1000);
     });
 
     it('should transfer tokens from Alice to Bob', async () => {
         const instance = await Tezos.contract.at(token);
-        const value = 1000000;
-        await instance.methods.transfer(aliceAddress, bobAddress, value).send();
-        await sleep(5000);
+        const value = 100;
+        const op = await instance.methods.transfer(alice.pkh, bob.pkh, value).send();
+        await op.confirmation(1, 1);
         const storage: Storage = await instance.storage();
-        const aliceRecord: any = await storage.ledger.get(aliceAddress);
-        const bobRecord: any = await storage.ledger.get(bobAddress);
-        assert.strictEqual(aliceRecord.balance.toNumber(), 9000000);
-        assert.strictEqual(bobRecord.balance.toNumber(), 1000000);
+        const aliceRecord: any = await storage.ledger.get(alice.pkh);
+        const bobRecord: any = await storage.ledger.get(bob.pkh);
+        assert.strictEqual(aliceRecord.balance.toNumber(), 900);
+        assert.strictEqual(bobRecord.balance.toNumber(), 100);
     });
 
     it("should fail if transfer isn't approved", async () => {
@@ -59,7 +62,7 @@ describe('Token', async () => {
         Tezos.setProvider({ signer });
         const value = 1;
         await assert.rejects(
-            instance.methods.transfer(aliceAddress, bobAddress, value).send(),
+            instance.methods.transfer(alice.pkh, bob.pkh, value).send(),
             (err) => {
                 assert.strictEqual(err.message, 'NotPermitted', 'Wrong error message');
                 return true;
@@ -68,15 +71,16 @@ describe('Token', async () => {
         );
     });
 
-    // it('should mint 1 token with 1 nanotez', async () => {
-    //     const instance = await Tezos.contract.at(token);
-    //     const params: any = { amount: 1 };
-    //     await instance.methods.mint(null).send(params);
-    //     await sleep(5000);
-    //     const storage: Storage = await instance.storage();
-    //     const bobRecord: any = await storage.ledger.get(bobAddress);
-    //     assert.strictEqual(bobRecord.balance.toNumber(), 1000001);
-    // });
+    it('should mint 1 token', async () => {
+        const instance = await Tezos.contract.at(token);
+        const signer = await InMemorySigner.fromSecretKey(bob.sk);
+        Tezos.setProvider({ signer });
+        const op = await instance.methods.default(null).send({ amount: 1 });
+        await op.confirmation(1, 1);
+        const storage: Storage = await instance.storage();
+        const bobRecord: any = await storage.ledger.get(bob.pkh);
+        assert.strictEqual(bobRecord.balance.toNumber(), 101);
+    });
 
     // it('should redeem 2 tokens', async () => {
     //     const instance = await TokenFA12.deployed();

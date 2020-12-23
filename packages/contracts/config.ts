@@ -1,8 +1,11 @@
-import accounts from './scripts/sandbox/accounts';
+import getAccounts from './accounts';
 
 type Config = {
     [key: string]: NetworkConfig;
 };
+
+const devAcc = getAccounts('dev')['alice'];
+const testnetAcc = getAccounts('testnet')['alice'];
 
 export type NetworkConfig = {
     node: string;
@@ -13,20 +16,18 @@ export type NetworkConfig = {
 const config: Config = {
     dev: {
         node: 'http://localhost:8732',
-        publicKeyHash: 'tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb',
-        secretKey: accounts['alice'].sk,
+        publicKeyHash: devAcc.pkh,
+        secretKey: devAcc.sk,
     },
     testnet: {
         node: 'https://testnet-tezos.giganode.io/',
-        publicKeyHash: 'tz1XQDJorhbH54asBbXimyTm3LKd8H4RxKCG',
-        secretKey:
-            'edskRvudXha2WHuzD9tmLx4AdrUMz4NBQGLvbio82FTvzc6nG4gsuUhGiv6CDfaU5w6cXcdsEuWf93gU31daMa7gAtN7ygwvBt',
+        publicKeyHash: testnetAcc.pkh,
+        secretKey: testnetAcc.sk,
     },
     next: {
         node: 'https://edonet-tezos.giganode.io/',
-        publicKeyHash: 'tz1XQDJorhbH54asBbXimyTm3LKd8H4RxKCG',
-        secretKey:
-            'edskRvudXha2WHuzD9tmLx4AdrUMz4NBQGLvbio82FTvzc6nG4gsuUhGiv6CDfaU5w6cXcdsEuWf93gU31daMa7gAtN7ygwvBt',
+        publicKeyHash: testnetAcc.pkh,
+        secretKey: testnetAcc.sk,
     },
 };
 

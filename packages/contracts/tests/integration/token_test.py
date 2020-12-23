@@ -8,7 +8,7 @@ from pytezos import ContractInterface, MichelsonRuntimeError
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
 
-logging.basicConfig(filename='test_log.log', level=logging.DEBUG)
+logging.basicConfig(filename='token_log.log', level=logging.DEBUG)
 
 alice = Key.from_encoded_key(
     "edskS3LMw4BFQjbutGWtLG9MtPhcoSsR6BfkLzrHhf5ZB36TfVqQsDxUXkrLaj6tULpoSnyWDF5HsNZvLJv2wL7W6YAahZPqwa"
@@ -20,7 +20,7 @@ bob = Key.from_encoded_key(
 alice_address = alice.public_key_hash()
 bob_address = bob.public_key_hash()
 
-total_supply = 10000000
+total_supply = 1000
 total_staked = 0
 reward_per_share = 0
 last_update_time = 0
@@ -47,31 +47,31 @@ class TokenTest(TestCase):
             join(dirname(__file__), "./../../build/token.tz"))
         cls.maxDiff = None
 
-    def test_transfer_token_from_alice_to_bob(self):
+    def test_transfer_token(self):
         res = self.token \
             .transfer(
-                source=alice_address,
+                sender=alice_address,
                 receiver=bob_address,
-                value=1000000
+                value=100
             ) \
             .result(initial_storage, alice_address)
 
-        self.assertEqual(9000000,
+        self.assertEqual(900,
                          res.big_map_diff['ledger'][alice_address]['balance'])
-        self.assertEqual(1000000,
+        self.assertEqual(100,
                          res.big_map_diff['ledger'][bob_address]['balance'])
 
     def test_fail_unaproved_transfer(self):
         with self.assertRaises(MichelsonRuntimeError):
             self.token \
                 .transfer(
-                    source=alice_address,
+                    sender=alice_address,
                     receiver=bob_address,
                     value=1
                 ) \
                 .result(storage=initial_storage, source=bob_address)
 
-    def test_mint_1_token_for_1_nanotez(self):
+    def test_mint(self):
         res = self.token \
             .mint(None) \
             .with_amount(1) \
@@ -79,7 +79,7 @@ class TokenTest(TestCase):
 
         self.assertEqual(1, res.big_map_diff['ledger'][bob_address]['balance'])
 
-    def test_redeem_2_token(self):
+    def test_redeem(self):
         res = self.token \
             .redeem(2) \
             .result(
@@ -96,13 +96,39 @@ class TokenTest(TestCase):
                 source=bob_address
             )
 
-        self.assertEqual(6, res.big_map_diff['ledger'][bob_address]['balance'])
-        self.assertEqual(4, res.big_map_diff['ledger'][bob_address]['staked'])
+        self.assertEqual(6, res.big_map_diff["ledger"][bob_address]["balance"])
+        self.assertEqual(4, res.big_map_diff["ledger"][bob_address]["staked"])
 
-    def test_stake_tokens_for_alice(self):
+    def test_stake(self):
         res = self.token \
-            .stake(1000000) \
+            .stake(10) \
             .result(storage=initial_storage, source=alice_address)
 
-        self.assertEqual(9000000,
-                         res.big_map_diff['ledger'][alice_address]['balance'])
+        self.assertEqual(990,
+                         res.big_map_diff["ledger"][alice_address]["balance"])
+        self.assertEqual(10,
+                         res.big_map_diff["ledger"][alice_address]["staked"])
+        self.assertEqual(10, res.storage["totalStaked"])
+        self.assertEqual(1000, res.storage["totalSupply"])
+
+    def test_unstake(self):
+        res = self.token \
+            .unstake(20) \
+            .result(storage={
+                "totalSupply": 1000,
+                "totalStaked": 100,
+                "rewardPerShare": 0,
+                "lastUpdateTime": 0,
+                "ledger": {
+                    bob_address: {
+                        "balance": 500,
+                        "staked": 30,
+                        "lastRewardPerShare": 0,
+                        "allowances": {},
+                    },
+                }
+            }, source=bob_address)
+
+        self.assertEqual(10, res.big_map_diff["ledger"][bob_address]["staked"])
+        self.assertEqual(80, res.storage["totalStaked"])
+        self.assertEqual(1000, res.storage["totalSupply"])
