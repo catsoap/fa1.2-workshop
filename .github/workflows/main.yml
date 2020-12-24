@@ -22,9 +22,9 @@ jobs:
       - name: Deploy contract
         run: yarn contracts:deploy testnet
       - name: Build Dapp
-        run: |
-          cp packages/dapp/.env.prod packages/dapp/.env
-          yarn dapp:build
+        run: yarn dapp:build
+        env:
+          REACT_APP_RPC: "https://testnet-tezos.giganode.io"
       - name: Archive Production Artifact
         uses: actions/upload-artifact@v2
         with:
