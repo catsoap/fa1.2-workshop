@@ -8,6 +8,7 @@ services:
       - "8732:20000"
     environment:
       - block_time=1
+      - flextesa_node_cors_origin=*
     volumes:
       - ./tezos-client.config.json:/root/.tezos-client/config
 
