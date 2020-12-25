@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import useBeacon from '../hooks/useBeacon';
 import { usePendingPromise } from '../hooks/usePendingPromise';
 
-export const ContractStorageInfo: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
+const ContractStorageInfo: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     const { Tezos } = useBeacon();
     const fetcher = useCallback(async () => (await Tezos.contract.at(contractAddress)).storage(), [
         Tezos.contract,
@@ -20,3 +20,5 @@ export const ContractStorageInfo: React.FC<{ contractAddress: string }> = ({ con
         <span>loading...</span>
     );
 };
+
+export default ContractStorageInfo;

@@ -62,5 +62,11 @@ export default function useBeacon() {
         setUserPkh(await wallet.getPKH());
     }, []);
 
-    return { connect, pkh, Tezos };
+    const disconnect = useCallback(async () => {
+        await wallet.disconnect();
+
+        setUserPkh('');
+    }, []);
+
+    return { connect, disconnect, pkh, Tezos };
 }
