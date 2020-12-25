@@ -1,0 +1,34 @@
+name: contracts
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/contracts/**'
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-18.04
+    defaults:
+      run:
+        working-directory: ./packages/contracts
+    steps:
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: yarn install
+      - name: Compile contract
+        run: yarn compile token.ligo
+      - name: Deploy contract
+        run: yarn deploy testnet
+      - name: Archive deployments Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: deployments
+          path: ./packages/contracts/deployments
+

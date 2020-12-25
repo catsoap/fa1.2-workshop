@@ -1,8 +1,10 @@
-name: ci
+name: dapp
 on:
   push:
     branches:
       - main
+    paths:
+      - 'packages/dapp/**'
 
 jobs:
   build:
@@ -17,14 +19,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Install Dependencies
         run: yarn install --prod
-      - name: Compile contract
-        run: yarn contracts:compile token.ligo
-      - name: Deploy contract
-        run: yarn contracts:deploy testnet
-      - name: Build Dapp
+      - name: Download deployments artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: contracts.yml
+          name: deployments
+          path: packages/contracts/deployments 
+      - name: Build
         run: yarn dapp:build
-        env:
-          REACT_APP_RPC: "https://testnet-tezos.giganode.io"
       - name: Archive Production Artifact
         uses: actions/upload-artifact@v2
         with:
