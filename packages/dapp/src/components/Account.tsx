@@ -48,7 +48,9 @@ const Account: React.FC<{ contractAddress: string }> = ({ contractAddress }) => 
                     <div className="flex flex-col mr-2">
                         <span>{pkh}</span>
                         <span className="text-right">
-                            {!fetching && (balance !== undefined || error) ? balance : 'loading..'}
+                            {!fetching && (balance !== undefined || error)
+                                ? balance ?? error
+                                : 'loading..'}
                         </span>
                     </div>
                     <button
