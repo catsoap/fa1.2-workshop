@@ -12,9 +12,14 @@ type Storage = {
     ledger: BigMapAbstraction;
 };
 
+type Counter = {
+    label: string;
+    count: number;
+};
+
 const toStorage = (result: any): Storage => result;
 
-const ContractStorageInfo: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
+const StorageInfo: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     const { Tezos } = useBeacon();
     const fetcher = useCallback(async () => (await Tezos.contract.at(contractAddress)).storage(), [
         Tezos.contract,
@@ -23,30 +28,35 @@ const ContractStorageInfo: React.FC<{ contractAddress: string }> = ({ contractAd
 
     const { fetching, data, error } = usePendingPromise(fetcher);
     const storage: Storage = toStorage(data);
-    console.log(storage);
+
+    const renderCounter = (c: Counter) => (
+        <div>
+            <div>
+                <h2>{c.label}</h2>
+                <span>{c.count}</span>
+            </div>
+        </div>
+    );
+
+    const renderCounters = (s: Storage) => {
+        const counters: Counter[] = [
+            { label: 'Reward Per Share', count: s.rewardPerShare.toNumber() },
+            { label: 'Total Staked', count: s.totalStaked.toNumber() },
+            { label: 'Total Supply', count: s.totalSupply.toNumber() },
+        ];
+
+        return counters.map(renderCounter);
+    };
 
     return !fetching ? (
         error || !storage ? (
             <p className="font-bold text-red-500">{error || 'Something went wrong'}</p>
         ) : (
-            <div className="flex">
-                <div className="flex-1 py-8">
-                    <h2>Reward Per Share</h2>
-                    <span>{storage.rewardPerShare.toNumber()}</span>
-                </div>
-                <div className="flex-1 py-8">
-                    <h2>Total Staked</h2>
-                    <span>{storage.totalStaked.toNumber()}</span>
-                </div>
-                <div className="flex-1 py-8">
-                    <h2>Total Supply</h2>
-                    <span>{storage.totalSupply.toNumber()}</span>
-                </div>
-            </div>
+            <div className="c-StorageInfo">{renderCounters(storage)}</div>
         )
     ) : (
         <span>loading...</span>
     );
 };
 
-export default ContractStorageInfo;
+export default StorageInfo;

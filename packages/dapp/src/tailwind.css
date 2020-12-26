@@ -12,12 +12,7 @@
     @apply flex-grow;
 }
 
-body {
-}
-
 /* Footer */
-footer {
-}
 .g-Footer {
     @apply flex;
     @apply p-4;
@@ -35,10 +30,33 @@ h1 {
     @apply bg-gradient-to-r;
     @apply from-green-400;
     @apply to-blue-500;
+
+    svg {
+        @apply mr-4;
+    }
 }
 
-h1 svg {
-    @apply mr-4;
+/* Storage Info */
+.c-StorageInfo {
+    @apply flex;
+
+    div {
+        @apply flex-grow;
+        div {
+            @apply p-4;
+            @apply bg-blue-200;
+            @apply shadow;
+        }
+        &:nth-child(1) {
+            @apply mr-2;
+        }
+        &:nth-child(1) {
+            @apply mx-2;
+        }
+        &:nth-child(1) {
+            @apply ml-2;
+        }
+    }
 }
 
 @tailwind utilities;
