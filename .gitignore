@@ -17,6 +17,10 @@ npm-debug.log*
 .eslintcache
 .firebase
 
+
+# tailwind
+tailwind.output.css
+
 # contracts
 /packages/contracts/deployments
 !/packages/contracts/deployments/.keep

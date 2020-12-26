@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+
+/* Sticky footer */
+#root {
+    @apply flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.g-MainContent {
+    @apply flex-grow;
+}
+
+body {
+}
+
+/* Footer */
+footer {
+}
+.g-Footer {
+    @apply flex;
+    @apply p-4;
+}
+.g-Footer a {
+    margin-left: auto;
+}
+
+h1 {
+    @apply inline-flex;
+    @apply text-5xl;
+    @apply font-extrabold;
+    @apply text-transparent;
+    @apply bg-clip-text;
+    @apply bg-gradient-to-r;
+    @apply from-green-400;
+    @apply to-blue-500;
+}
+
+h1 svg {
+    @apply mr-4;
+}
+
+@tailwind utilities;

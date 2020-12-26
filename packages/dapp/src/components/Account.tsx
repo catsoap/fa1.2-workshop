@@ -16,10 +16,6 @@ const Account: React.FC<{ contractAddress: string }> = ({ contractAddress }) => 
 
     const { fetching, data: balance, error } = usePendingPromise(fetcher);
 
-    console.log({ fetching });
-    console.log({ balance });
-    console.log({ error });
-
     return (
         <div className="ml-auto">
             {!pkh ? (
@@ -49,7 +45,7 @@ const Account: React.FC<{ contractAddress: string }> = ({ contractAddress }) => 
                         <span>{pkh}</span>
                         <span className="text-right">
                             {!fetching && (balance !== undefined || error)
-                                ? balance ?? error
+                                ? `tokens: ${balance}` ?? error
                                 : 'loading..'}
                         </span>
                     </div>
