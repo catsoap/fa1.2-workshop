@@ -33,7 +33,7 @@ const StorageInfo: React.FC<{ contractAddress: string }> = ({ contractAddress })
     const renderCounter = (c: Counter) => (
         <div key={uuidv4()}>
             <div>
-                <h2>{c.label}</h2>
+                <span>{c.label}</span>
                 <span>{c.count}</span>
             </div>
         </div>

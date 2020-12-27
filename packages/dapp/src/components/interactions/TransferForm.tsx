@@ -3,22 +3,61 @@ import useBeacon from '../../hooks/useBeacon';
 import { validateAddress, ValidationResult } from '@taquito/utils';
 
 type TransferParams = {
-    to: string;
+    sender: string;
+    receiver: string;
     amount: number;
 };
 
 const TransferForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
-    const { pkh, Tezos } = useBeacon();
+    const { Tezos } = useBeacon();
     const { register, handleSubmit, errors } = useForm<TransferParams>();
     const onSubmit = async (data: TransferParams) => {
         const contract = await Tezos.wallet.at(contractAddress);
-        const op = await contract.methods.transfer(pkh, data.to, data.amount).send();
+        const op = await contract.methods.transfer(data.sender, data.receiver, data.amount).send();
         await op.confirmation(1);
     };
 
     return (
         <form className="i-TransferForm" onSubmit={handleSubmit(onSubmit)}>
             <h3>Transfer</h3>
+            <div>
+                <label>
+                    <span>Sender:</span>
+                    <input
+                        aria-invalid={errors.sender ? 'true' : 'false'}
+                        ref={register({
+                            validate: (value) => validateAddress(value) === ValidationResult.VALID,
+                        })}
+                        name="sender"
+                        placeholder="tz1xxx1234"
+                        type="text"
+                    />
+                    {errors.sender && (
+                        <p className="g-ErrorMessage" role="alert">
+                            Please enter a valid address
+                        </p>
+                    )}
+                </label>
+            </div>
+            <div>
+                <label>
+                    <span>Receiver:</span>
+                    <input
+                        aria-invalid={errors.receiver ? 'true' : 'false'}
+                        ref={register({
+                            validate: (value) => validateAddress(value) === ValidationResult.VALID,
+                        })}
+                        name="receiver"
+                        placeholder="tz1xxx1234"
+                        type="text"
+                    />
+                    {errors.receiver && (
+                        <p className="g-ErrorMessage" role="alert">
+                            Please enter a valid address
+                        </p>
+                    )}
+                </label>
+            </div>
             <div>
                 <label>
                     <span>Amount:</span>
@@ -37,26 +76,7 @@ const TransferForm: React.FC<{ contractAddress: string }> = ({ contractAddress }
                     )}
                 </label>
             </div>
-            <div>
-                <label>
-                    <span>Destination address:</span>
-                    <input
-                        aria-invalid={errors.to ? 'true' : 'false'}
-                        ref={register({
-                            validate: (value) => validateAddress(value) === ValidationResult.VALID,
-                        })}
-                        name="to"
-                        placeholder="tz1xxx1234"
-                        type="text"
-                    />
-                    {errors.to && (
-                        <p className="g-ErrorMessage" role="alert">
-                            Please enter a valid address
-                        </p>
-                    )}
-                </label>
-            </div>
-            <button>Submit</button>
+            <button>Transfer</button>
         </form>
     );
 };

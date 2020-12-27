@@ -33,9 +33,12 @@ const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
 
                     <div className="i-Forms">
                         <div>
-                            <h3>Token</h3>
-                            <TransferForm contractAddress={contractAddress} />
-                            <MintForm contractAddress={contractAddress} />
+                            <div>
+                                <TransferForm contractAddress={contractAddress} />
+                            </div>
+                            <div>
+                                <MintForm contractAddress={contractAddress} />
+                            </div>
                         </div>
                     </div>
                 </>

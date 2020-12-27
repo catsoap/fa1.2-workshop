@@ -35,7 +35,7 @@ const MintForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) =>
                     )}
                 </label>
             </div>
-            <button>Submit</button>
+            <button>Mint</button>
         </form>
     );
 };
