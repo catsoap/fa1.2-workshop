@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { TezosToolkit } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
-import { usePendingPromise } from '../hooks/usePendingPromise';
-import { RPC } from '../config';
+import { usePendingPromise } from '../../hooks/usePendingPromise';
+import { RPC } from '../../config';
 
 const tk = new TezosToolkit(RPC);
 

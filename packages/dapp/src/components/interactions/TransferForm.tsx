@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import useBeacon from '../hooks/useBeacon';
+import useBeacon from '../../hooks/useBeacon';
 import { validateAddress, ValidationResult } from '@taquito/utils';
 
 type TransferParams = {
@@ -17,7 +17,7 @@ const TransferForm: React.FC<{ contractAddress: string }> = ({ contractAddress }
     };
 
     return (
-        <form className="c-TransferForm" onSubmit={handleSubmit(onSubmit)}>
+        <form className="i-TransferForm" onSubmit={handleSubmit(onSubmit)}>
             <h3>Transfer</h3>
             <div>
                 <label>

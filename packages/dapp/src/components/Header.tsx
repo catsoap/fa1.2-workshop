@@ -3,7 +3,7 @@ import { ReactComponent as TezosLogo } from '../svg/Tezos_logo.svg';
 
 const Footer: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     return (
-        <div className="flex my-4">
+        <div className="g-Header">
             <h1>
                 <TezosLogo />
                 <span>FA1.2 Workshop</span>

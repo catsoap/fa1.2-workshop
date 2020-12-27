@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import useBeacon from '../hooks/useBeacon';
+import useBeacon from '../../hooks/useBeacon';
 
 type MintParams = {
     amount: number;
@@ -10,18 +10,17 @@ const MintForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) =>
     const { register, handleSubmit, errors } = useForm<MintParams>();
     const onSubmit = async (data: MintParams) => {
         const contract = await Tezos.wallet.at(contractAddress);
-        const op = await contract.methods.mint(data.amount).send();
+        const op = await contract.methods.default(null).send(data);
         await op.confirmation(1);
     };
 
     return (
-        <form className="c-MintForm" onSubmit={handleSubmit(onSubmit)}>
+        <form className="i-MintForm" onSubmit={handleSubmit(onSubmit)}>
             <h3>Mint</h3>
             <div>
                 <label>
                     <span>Amount:</span>
                     <input
-                        className="block w-full mt-1 form-input"
                         defaultValue={25}
                         name="amount"
                         ref={register({

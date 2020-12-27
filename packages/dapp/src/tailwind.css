@@ -11,6 +11,10 @@
     @apply container flex-grow;
 }
 
+.g-Header {
+    @apply flex my-4;
+}
+
 /* Footer */
 .g-Footer {
     @apply flex p-4;
@@ -44,30 +48,9 @@ h1 {
     }
 }
 
-/* Account */
-.g-Account {
-    @apply flex justify-end my-4;
-    button {
-        @apply ml-2 font-bold text-blue-600 underline;
-    }
-    div {
-        @apply font-bold text-yellow-600;
-    }
-
-    &.connected {
-        @apply justify-start;
-        div {
-            @apply text-green-600;
-        }
-        button {
-            @apply ml-auto;
-        }
-    }
-}
-
 /* Storage Info */
 .c-StorageInfo {
-    @apply flex;
+    @apply flex my-4;
 
     div {
         @apply flex-grow;
@@ -86,12 +69,42 @@ h1 {
     }
 }
 
-.c-Forms {
-    @apply grid grid-cols-2 gap-4 mt-4;
+/* Interactions */
+.i-Account {
+    &_connected,
+    &_not-connected {
+        @apply flex justify-end my-4;
+        button {
+            @apply ml-2 font-bold underline;
+        }
+        div {
+            @apply font-bold;
+        }
+    }
+
+    &_not-connected {
+        div {
+            @apply text-yellow-600;
+        }
+    }
+
+    &_connected {
+        @apply justify-start;
+        div {
+            @apply text-green-600;
+        }
+        button {
+            @apply ml-auto;
+        }
+    }
 }
 
-.c-TransferForm,
-.c-MintForm {
+.i-Forms {
+    @apply mt-4 grid grid-cols-2 gap-4;
+}
+
+.i-TransferForm,
+.i-MintForm {
     label,
     input {
         @apply block;
