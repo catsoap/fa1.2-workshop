@@ -40,8 +40,7 @@ export default function useBeacon() {
 
     const disconnect = useCallback(async () => {
         await wallet.disconnect();
-
-        setUserPkh('');
+        document.location.reload();
     }, []);
 
     return { connect, disconnect, pkh, Tezos };

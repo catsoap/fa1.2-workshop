@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import useBeacon from '../hooks/useBeacon';
 import { BigMapAbstraction } from '@taquito/taquito';
+import { v4 as uuidv4 } from 'uuid';
 import { BigNumber } from 'bignumber.js';
 import { usePendingPromise } from '../hooks/usePendingPromise';
 
@@ -30,7 +31,7 @@ const StorageInfo: React.FC<{ contractAddress: string }> = ({ contractAddress })
     const storage: Storage = toStorage(data);
 
     const renderCounter = (c: Counter) => (
-        <div>
+        <div key={uuidv4()}>
             <div>
                 <h2>{c.label}</h2>
                 <span>{c.count}</span>
@@ -50,7 +51,7 @@ const StorageInfo: React.FC<{ contractAddress: string }> = ({ contractAddress })
 
     return !fetching ? (
         error || !storage ? (
-            <p className="font-bold text-red-500">{error || 'Something went wrong'}</p>
+            <p className="g-ErrorMessage">{error || 'Something went wrong'}</p>
         ) : (
             <div className="c-StorageInfo">{renderCounters(storage)}</div>
         )

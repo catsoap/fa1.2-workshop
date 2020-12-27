@@ -1,5 +1,4 @@
 import React from 'react';
-import Account from './Account';
 import { ReactComponent as TezosLogo } from '../svg/Tezos_logo.svg';
 
 const Footer: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
@@ -7,9 +6,11 @@ const Footer: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
         <div className="flex my-4">
             <h1>
                 <TezosLogo />
-                Token demo
+                <span>FA1.2 Workshop</span>
+                <a href={`https://better-call.dev/delphinet/${contractAddress}`}>
+                    / <span>{contractAddress}</span>
+                </a>
             </h1>
-            <Account contractAddress={contractAddress} />
         </div>
     );
 };
