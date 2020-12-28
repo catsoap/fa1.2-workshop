@@ -7,16 +7,12 @@ const Footer = () => {
         <footer>
             <div className="container">
                 <div className="g-Footer">
-                    <p>
-                        Logos:
-                        <ul>
-                            <li>
-                                <a href="https://thenounproject.com/rose-alice-design/">
-                                    Alice Design
-                                </a>
-                            </li>
-                        </ul>
-                    </p>
+                    <p>Logos:</p>
+                    <ul>
+                        <li>
+                            <a href="https://thenounproject.com/rose-alice-design/">Alice Design</a>
+                        </li>
+                    </ul>
                     <a href={REPO_URL} target="new">
                         <PictoGithub width="30" height="30" />
                     </a>

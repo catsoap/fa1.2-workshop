@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form';
 import useBeacon from '../../hooks/useBeacon';
 
-type MintParams = {
+type StakingParams = {
     amount: number;
 };
 
-const MintForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
+const StakingForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     const { Tezos } = useBeacon();
-    const { register, handleSubmit, errors } = useForm<MintParams>();
-    const onSubmit = async (data: MintParams) => {
+    const { register, handleSubmit, errors } = useForm<StakingParams>();
+    const onSubmit = async (data: StakingParams) => {
         const contract = await Tezos.wallet.at(contractAddress);
         const op = await contract.methods.default(null).send(data);
         await op.confirmation(1);
@@ -16,12 +16,11 @@ const MintForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) =>
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <h3>Mint</h3>
+            <h3>Staking</h3>
             <div>
                 <label>
                     <span>Amount:</span>
                     <input
-                        defaultValue={25}
                         name="amount"
                         ref={register({
                             validate: (value) => value > 0,
@@ -35,9 +34,12 @@ const MintForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) =>
                     )}
                 </label>
             </div>
-            <button>Mint</button>
+            <div className="i-Staking_buttons">
+                <button>Stake</button>
+                <button>Unstake</button>
+            </div>
         </form>
     );
 };
 
-export default MintForm;
+export default StakingForm;

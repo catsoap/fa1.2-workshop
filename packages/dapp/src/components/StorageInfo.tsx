@@ -1,17 +1,8 @@
 import { useCallback } from 'react';
 import useBeacon from '../hooks/useBeacon';
-import { BigMapAbstraction } from '@taquito/taquito';
 import { v4 as uuidv4 } from 'uuid';
-import { BigNumber } from 'bignumber.js';
 import { usePendingPromise } from '../hooks/usePendingPromise';
-
-type Storage = {
-    totalStaked: BigNumber;
-    rewardPerShare: BigNumber;
-    lastUpdateTime: string;
-    totalSupply: BigNumber;
-    ledger: BigMapAbstraction;
-};
+import { Storage } from '../TokenContract';
 
 type Counter = {
     label: string;

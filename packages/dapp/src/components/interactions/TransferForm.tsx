@@ -18,7 +18,7 @@ const TransferForm: React.FC<{ contractAddress: string }> = ({ contractAddress }
     };
 
     return (
-        <form className="i-TransferForm" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <h3>Transfer</h3>
             <div>
                 <label>

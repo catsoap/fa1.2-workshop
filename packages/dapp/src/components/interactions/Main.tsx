@@ -1,6 +1,7 @@
 import useBeacon from '../../hooks/useBeacon';
 import TransferForm from './TransferForm';
 import MintForm from './MintForm';
+import StakingForm from './StakingForm';
 import TokenBalance from './TokenBalance';
 import Balance from './Balance';
 import { ReactComponent as LoginPicto } from '../../svg/noun_log in_1920855.svg';
@@ -44,6 +45,11 @@ const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
                             </div>
                             <div>
                                 <MintForm contractAddress={contractAddress} />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <StakingForm contractAddress={contractAddress} />
                             </div>
                         </div>
                     </div>
