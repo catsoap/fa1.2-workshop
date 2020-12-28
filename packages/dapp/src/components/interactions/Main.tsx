@@ -3,6 +3,8 @@ import TransferForm from './TransferForm';
 import MintForm from './MintForm';
 import TokenBalance from './TokenBalance';
 import Balance from './Balance';
+import { ReactComponent as LoginPicto } from '../../svg/noun_log in_1920855.svg';
+import { ReactComponent as LogoutPicto } from '../../svg/noun_Log Out_1920823.svg';
 
 const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     const { connect, disconnect, pkh, Tezos } = useBeacon();
@@ -12,7 +14,9 @@ const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
             {!pkh ? (
                 <div className="i-Account_not-connected">
                     <div>wallet not connected</div>
-                    <button onClick={connect}>connect</button>
+                    <button onClick={connect} aria-label="connect wallet">
+                        <LoginPicto />
+                    </button>
                 </div>
             ) : (
                 <>
@@ -28,7 +32,9 @@ const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
                                 tezos={Tezos}
                             />
                         </div>
-                        <button onClick={disconnect}>disconnect</button>
+                        <button onClick={disconnect} aria-label="disconnect wallet">
+                            <LogoutPicto />
+                        </button>
                     </div>
 
                     <div className="i-Forms">

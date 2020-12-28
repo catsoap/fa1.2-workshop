@@ -18,6 +18,10 @@
 /* Footer */
 .g-Footer {
     @apply flex p-4;
+
+    ul a {
+        @apply underline;
+    }
 }
 .g-Footer a {
     @apply ml-auto;
@@ -77,9 +81,12 @@ h3 {
 .i-Account {
     &_connected,
     &_not-connected {
-        @apply flex justify-end p-4 my-8 bg-blue-100 shadow rounded-md;
+        @apply flex justify-end p-4 my-8 text-white bg-blue-400 shadow rounded-md;
         button {
-            @apply ml-2 font-bold underline;
+            @apply ml-1 font-bold underline;
+            svg {
+                @apply w-full h-6 ml-2 fill-current;
+            }
         }
         div {
             @apply font-bold;
@@ -88,14 +95,13 @@ h3 {
 
     &_not-connected {
         div {
-            @apply text-yellow-600;
         }
     }
 
     &_connected {
         @apply justify-start;
         div {
-            @apply text-indigo-500;
+            @apply text-white;
         }
         button {
             @apply ml-auto;
@@ -111,20 +117,12 @@ h3 {
             @apply py-4;
         }
     }
-}
-
-.i-TransferForm,
-.i-MintForm {
-    label,
     input {
-        @apply block;
-    }
-    input {
-        @apply w-full mt-1;
+        @apply block w-full mt-1 bg-blue-100 border-transparent rounded-md focus:border-blue-300 focus:bg-white focus:ring-0;
     }
 
     button {
-        @apply px-4 py-2 mt-2 font-bold text-white bg-blue-500 border-b-4 border-blue-700 rounded hover:bg-blue-400 hover:border-blue-500;
+        @apply w-full px-4 py-2 mt-2 font-bold text-white bg-blue-500 border-b-4 border-blue-700 rounded hover:bg-blue-400 hover:border-blue-500;
     }
 }
 
