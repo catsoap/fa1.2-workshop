@@ -1,17 +1,22 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useBeacon from '../../hooks/useBeacon';
 
-type StakingParams = {
+type FormData = {
     amount: number;
 };
 
 const StakingForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     const { Tezos } = useBeacon();
-    const { register, handleSubmit, errors } = useForm<StakingParams>();
-    const onSubmit = async (data: StakingParams) => {
+    const [action, setAction] = useState<string>();
+    const { register, handleSubmit, errors } = useForm<FormData>();
+    const onSubmit = async (data: FormData) => {
         const contract = await Tezos.wallet.at(contractAddress);
-        const op = await contract.methods.default(null).send(data);
-        await op.confirmation(1);
+        if (action) {
+            const { amount } = data;
+            const op = await contract.methods[action](amount).send();
+            await op.confirmation(1);
+        }
     };
 
     return (
@@ -35,8 +40,8 @@ const StakingForm: React.FC<{ contractAddress: string }> = ({ contractAddress })
                 </label>
             </div>
             <div className="i-Staking_buttons">
-                <button>Stake</button>
-                <button>Unstake</button>
+                <button onClick={() => setAction('stake')}>Stake</button>
+                <button onClick={() => setAction('unstake')}>Unstake</button>
             </div>
         </form>
     );

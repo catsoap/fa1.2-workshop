@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form';
 import useBeacon from '../../hooks/useBeacon';
 
-type MintParams = {
+type FormData = {
     amount: number;
 };
 
 const MintForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     const { Tezos } = useBeacon();
-    const { register, handleSubmit, errors } = useForm<MintParams>();
-    const onSubmit = async (data: MintParams) => {
+    const { register, handleSubmit, errors } = useForm<FormData>();
+    const onSubmit = async (data: FormData) => {
         const contract = await Tezos.wallet.at(contractAddress);
         const op = await contract.methods.default(null).send(data);
         await op.confirmation(1);
