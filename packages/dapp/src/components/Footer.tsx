@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReactComponent as PictoGithub } from '../svg/Octicons-mark-github.svg';
-import { REPO_URL } from '../config';
+import { REPO_URL } from '../constants';
 
 const Footer = () => {
     return (

@@ -3,10 +3,10 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 
 import { TezosToolkit } from '@taquito/taquito';
 import { NetworkType, PermissionScope } from '@airgap/beacon-sdk';
-import { RPC } from '../config';
+import { RPC } from '../constants';
 
 const options = {
-    name: 'FA1.2 interaction dApp',
+    name: 'FA1.2 Workshop',
     iconUrl: 'https://tezostaquito.io/img/favicon.png',
     eventHandlers: {
         PERMISSION_REQUEST_SUCCESS: {
