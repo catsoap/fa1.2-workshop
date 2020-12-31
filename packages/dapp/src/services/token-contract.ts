@@ -12,12 +12,12 @@ export interface TokenContractStorage {
 }
 
 export interface TokenContract {
-    getStorage(): Promise<TokenContractStorage>;
+    getStorage(pkh?: string): Promise<TokenContractStorage>;
 }
 
 const tokenContract = (): TokenContract => {
     return {
-        async getStorage(): Promise<TokenContractStorage> {
+        async getStorage(pkh?: string): Promise<TokenContractStorage> {
             const contract = await Tezos.getTK().contract.at(TOKEN_CONTRACT);
             const storage: TokenContractStorage = await contract.storage();
 

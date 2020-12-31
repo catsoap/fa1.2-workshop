@@ -56,6 +56,11 @@ h3 {
     @apply font-bold;
 }
 
+/* Spinner */
+.spinner {
+    @apply animate-spin;
+}
+
 /* Storage Info */
 .c-StorageInfo {
     @apply flex my-4;
@@ -74,6 +79,9 @@ h3 {
         &:nth-child(1) {
             @apply ml-2;
         }
+    }
+    .spinner {
+        @apply w-6 h-6;
     }
 }
 
