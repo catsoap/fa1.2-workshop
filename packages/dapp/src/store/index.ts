@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from '@reduxjs/toolkit';
-import { contractStorageReducer } from './contract-storage/reducers';
+import tokenStorageReducer from './token-storage';
 import { uiReducer } from './ui/reducers';
 
 const rootReducer = combineReducers({
-    contractStorage: contractStorageReducer,
+    tokenStorage: tokenStorageReducer,
     ui: uiReducer,
 });
 

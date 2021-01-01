@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { ContractStorageState } from '../store/contract-storage/types';
-import { UIState } from '../store/ui/types';
+import { TokenStorageState } from '../store/token-storage';
 import { ReactComponent as Spinner } from '../svg/noun_spinner_639850.svg';
 
 interface Counter {
@@ -11,8 +10,7 @@ interface Counter {
 }
 
 const StorageInfo: React.FC = () => {
-    const storage: ContractStorageState = useSelector((state: RootState) => state.contractStorage);
-    const ui: UIState = useSelector((state: RootState) => state.ui);
+    const storage: TokenStorageState = useSelector((state: RootState) => state.tokenStorage);
 
     const counters: Counter[] = [
         { label: 'Reward Per Share', count: storage.rewardPerShare },
@@ -22,16 +20,20 @@ const StorageInfo: React.FC = () => {
 
     return (
         <div className="c-StorageInfo">
-            {counters.map((c: Counter) => (
-                <div key={uuidv4()}>
-                    <div>
-                        <span>{c.label}</span>
-                        <span>
-                            {ui.contractStorageLoading ? <Spinner className="spinner" /> : c.count}
-                        </span>
+            {storage.error !== '' ? (
+                <p className="g-ErrorMessage">{storage.error}</p>
+            ) : (
+                counters.map((c: Counter) => (
+                    <div key={uuidv4()}>
+                        <div>
+                            <span>{c.label}</span>
+                            <span>
+                                {storage.loading ? <Spinner className="spinner" /> : c.count}
+                            </span>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))
+            )}
         </div>
     );
 };
