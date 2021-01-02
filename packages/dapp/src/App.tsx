@@ -5,7 +5,7 @@ import StorageInfo from './components/StorageInfo';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { TOKEN_CONTRACT } from './constants';
-import { fetchStorage } from './store/token-storage';
+import { fetchStorage } from './store/token-contract';
 
 function App() {
     const dispatch = useDispatch();

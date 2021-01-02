@@ -1,6 +1,5 @@
 import React from 'react';
 import { ReactComponent as TezosLogo } from '../svg/Tezos_logo.svg';
-import shortenAddress from '../helpers/shortenAddress';
 
 const Footer: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     return (
@@ -8,9 +7,6 @@ const Footer: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
             <h1>
                 <TezosLogo />
                 <span>FA1.2 Workshop</span>
-                <a href={`https://better-call.dev/delphinet/${contractAddress}`}>
-                    / <span>{shortenAddress(contractAddress)}</span>
-                </a>
             </h1>
         </div>
     );

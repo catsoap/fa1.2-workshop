@@ -1,8 +1,15 @@
 import { useCallback } from 'react';
 import { BigMapAbstraction, TezosToolkit } from '@taquito/taquito';
 import { usePendingPromise } from '../../hooks/usePendingPromise';
-import { Storage } from '../../TokenContract';
 import { BigNumber } from 'bignumber.js';
+
+type Storage = {
+    totalStaked: BigNumber;
+    rewardPerShare: BigNumber;
+    lastUpdateTime: string;
+    totalSupply: BigNumber;
+    ledger: BigMapAbstraction;
+};
 
 type Ledger = {
     allowances: BigMapAbstraction;

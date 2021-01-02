@@ -37,16 +37,6 @@ h1 {
         @apply text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500;
     }
 
-    a {
-        @apply self-center ml-4 text-blue-600 underline;
-        span {
-            @apply font-bold text-blue-900;
-            &:hover {
-                @apply text-blue-600;
-            }
-        }
-    }
-
     svg {
         @apply mr-4;
     }
@@ -63,21 +53,38 @@ h3 {
 
 /* Storage Info */
 .c-StorageInfo {
-    @apply flex my-4;
+    @apply flex flex-col;
 
-    div {
-        @apply flex-grow;
-        div {
-            @apply flex justify-between p-4 font-semibold text-green-700 bg-green-300 shadow-inner;
+    h2 {
+        @apply flex my-4 font-semibold;
+        a {
+            @apply text-blue-400;
+            &:hover {
+                @apply text-blue-300;
+            }
+            svg {
+                @apply inline w-6 h-6 ml-2 fill-current;
+            }
         }
-        &:nth-child(1) {
-            @apply mr-2;
-        }
-        &:nth-child(1) {
-            @apply mx-2;
-        }
-        &:nth-child(1) {
-            @apply ml-2;
+    }
+
+    > div {
+        @apply flex flex-row;
+        > div {
+            @apply flex flex-grow;
+            div {
+                @apply flex justify-between flex-grow p-4 font-semibold text-green-700 bg-green-300 shadow-inner;
+            }
+            &:nth-child(1) {
+                @apply mr-2;
+            }
+            &:nth-child(2),
+            &:nth-child(3) {
+                @apply mx-2;
+            }
+            &:nth-child(4) {
+                @apply ml-2;
+            }
         }
     }
     .spinner {

@@ -1,11 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from '@reduxjs/toolkit';
-import tokenStorageReducer from './token-storage';
-import { uiReducer } from './ui/reducers';
+import tokenContractReducer from './token-contract';
 
 const rootReducer = combineReducers({
-    tokenStorage: tokenStorageReducer,
-    ui: uiReducer,
+    tokenContract: tokenContractReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
