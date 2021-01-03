@@ -1,21 +1,18 @@
-import { useCallback } from 'react';
-import { TezosToolkit } from '@taquito/taquito';
-import BigNumber from 'bignumber.js';
-import { usePendingPromise } from '../../hooks/usePendingPromise';
-import { RPC } from '../../constants';
-
-const tk = new TezosToolkit(RPC);
+import { useSelector } from 'react-redux';
+import { WalletAccountState } from '../../store/walletAccount';
+import { RootState } from '../../store';
 
 const Balance: React.FC<{ pkh: string }> = ({ pkh }) => {
-    const fetcher = useCallback(async () => {
-        const balance = await tk.tz.getBalance(pkh);
-        return new BigNumber(tk.format('mutez', 'tz', balance)).toFixed(2);
-    }, [pkh]);
-
-    const { fetching, data: balance, error } = usePendingPromise(fetcher);
+    const walletAccount: WalletAccountState = useSelector(
+        (state: RootState) => state.walletAccount,
+    );
 
     return (
-        <>{!fetching && (balance !== undefined || error) ? `${balance} ꜩ` ?? error : 'loading..'}</>
+        <>
+            {!walletAccount.loading && (walletAccount.balance !== undefined || walletAccount.error)
+                ? `${walletAccount.balance} ꜩ` ?? walletAccount.error
+                : 'loading..'}
+        </>
     );
 };
 

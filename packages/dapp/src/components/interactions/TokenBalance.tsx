@@ -1,58 +1,20 @@
-import { useCallback } from 'react';
-import { BigMapAbstraction, TezosToolkit } from '@taquito/taquito';
-import { usePendingPromise } from '../../hooks/usePendingPromise';
-import { BigNumber } from 'bignumber.js';
+import { useSelector } from 'react-redux';
+import { TokenContractState } from '../../store/tokenContract';
+import { RootState } from '../../store';
 
-type Storage = {
-    totalStaked: BigNumber;
-    rewardPerShare: BigNumber;
-    lastUpdateTime: string;
-    totalSupply: BigNumber;
-    ledger: BigMapAbstraction;
-};
-
-type Ledger = {
-    allowances: BigMapAbstraction;
-    balance: BigNumber;
-    staked: BigNumber;
-    rewardPerShare: BigNumber;
-};
-
-const TokenBalance: React.FC<{ contractAddress: string; pkh: string; tezos: TezosToolkit }> = ({
-    contractAddress,
-    pkh,
-    tezos,
-}) => {
-    const fetcher = useCallback(async () => {
-        const contract = await tezos.contract.at(contractAddress);
-        const storage: Storage = await contract.storage();
-        const ledger = await storage.ledger.get(pkh);
-        return (
-            ledger ?? {
-                balance: new BigNumber(0),
-                staked: new BigNumber(0),
-            }
-        );
-    }, [contractAddress, pkh, tezos.contract]);
-
-    const { fetching, data, error } = usePendingPromise(fetcher);
-    let ledger: Ledger;
-    ledger = (data as unknown) as Ledger;
-    const balance = ledger ? ledger.balance.toNumber() : 0;
-    const staked = ledger ? ledger.staked.toNumber() : 0;
+const TokenBalance: React.FC = () => {
+    const tokenContract: TokenContractState = useSelector(
+        (state: RootState) => state.tokenContract,
+    );
 
     return (
         <>
-            {!fetching && (ledger || error) ? (
-                ledger ? (
-                    <>
-                        {`tokens: ${balance}`}
-                        <br />
-                        {`staked: ${staked}`}
-                    </>
-                ) : (
-                    error
-                )
+            {!tokenContract.loading ? (
+                <>
+                    {`tokens: ${tokenContract.ledger.balance}`}
+                    <br />
+                    {`staked: ${tokenContract.ledger.staked}`}
+                </>
             ) : (
                 'loading..'
             )}

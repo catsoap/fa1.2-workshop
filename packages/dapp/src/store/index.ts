@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from '@reduxjs/toolkit';
-import tokenContractReducer from './token-contract';
+import tokenContractReducer from './tokenContract';
+import walletAccountReducer from './walletAccount';
 
 const rootReducer = combineReducers({
     tokenContract: tokenContractReducer,
+    walletAccount: walletAccountReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

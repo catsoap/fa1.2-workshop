@@ -1,4 +1,5 @@
 import useBeacon from '../../hooks/useBeacon';
+import { useDispatch } from 'react-redux';
 import TransferForm from './TransferForm';
 import MintForm from './MintForm';
 import StakingForm from './StakingForm';
@@ -6,9 +7,18 @@ import TokenBalance from './TokenBalance';
 import Balance from './Balance';
 import { ReactComponent as LoginPicto } from '../../svg/noun_log in_1920855.svg';
 import { ReactComponent as LogoutPicto } from '../../svg/noun_Log Out_1920823.svg';
+import { fetchBalance } from '../../store/walletAccount';
+import { useEffect } from 'react';
+import { fetchStorage } from '../../store/tokenContract';
 
 const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
-    const { connect, disconnect, pkh, Tezos } = useBeacon();
+    const { connect, disconnect, pkh } = useBeacon();
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchBalance(pkh));
+        dispatch(fetchStorage(pkh));
+    }, [dispatch, pkh]);
 
     return (
         <div className="i-Interactions">
@@ -27,11 +37,7 @@ const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
                             <br />
                             <Balance pkh={pkh} />
                             <br />
-                            <TokenBalance
-                                contractAddress={contractAddress}
-                                pkh={pkh}
-                                tezos={Tezos}
-                            />
+                            <TokenBalance />
                         </div>
                         <button onClick={disconnect} aria-label="disconnect wallet">
                             <LogoutPicto />

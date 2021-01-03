@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { RootState } from '../store';
-import { TokenContractState } from '../store/token-contract';
+import { TokenContractState } from '../store/tokenContract';
 import { ReactComponent as Spinner } from '../svg/noun_spinner_639850.svg';
 import { ReactComponent as PictoLink } from '../svg/noun_External Link_704636.svg';
 

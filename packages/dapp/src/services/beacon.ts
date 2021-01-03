@@ -3,10 +3,14 @@ import Tezos from './tezos';
 
 let globalWallet: BeaconWallet | undefined;
 
+export const connectedToBeacon = () => {
+    return globalWallet !== undefined;
+};
+
 export const connectToBeacon = async () => {
     if (!globalWallet) {
         // Create a new BeaconWallet instance. The options will be passed to the DAppClient constructor.
-        const wallet = new BeaconWallet({ name: 'TzButton' });
+        const wallet = new BeaconWallet({ name: 'FA1.2 Workshop' });
 
         // Setting the wallet as the wallet provider for Taquito.
         Tezos.getTK().setWalletProvider(wallet);
@@ -22,4 +26,10 @@ export const connectToBeacon = async () => {
     await globalWallet.requestPermissions();
 
     return globalWallet;
+};
+
+export const connectedPKH = () => Tezos.getTK().wallet.pkh();
+
+export const mint = async () => {
+    connectToBeacon();
 };

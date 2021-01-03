@@ -10,18 +10,33 @@ export interface TokenContractState {
     totalStaked: number;
     rewardPerShare: number;
     totalSupply: number;
+    ledger: {
+        staked: number;
+        balance: number;
+    };
 }
 
-export const fetchStorage = createAsyncThunk<TokenContractState>(
+export const fetchStorage = createAsyncThunk<TokenContractState, string | undefined>(
     'tokenContract/fetchStorage',
-    async () => {
+    async (pkh?: string) => {
         const storage = await tokenContract.getStorage();
-        return {
+        let ledger;
+        if (pkh) {
+            ledger = await tokenContract.getLedger(storage, pkh).then((ledger) => ({
+                staked: ledger ? ledger.staked.toNumber() : 0,
+                balance: ledger ? ledger.balance.toNumber() : 0,
+            }));
+        } else {
+            ledger = { staked: 0, balance: 0 };
+        }
+        const state = {
             lastUpdateTime: new Date(storage.lastUpdateTime).getTime(),
             totalStaked: storage.totalStaked.toNumber(),
             totalSupply: storage.totalSupply.toNumber(),
             rewardPerShare: storage.rewardPerShare.toNumber(),
-        } as TokenContractState;
+            ledger,
+        };
+        return state as TokenContractState;
     },
 );
 
@@ -35,6 +50,7 @@ const tokenContractSlice = createSlice({
         totalStaked: 0,
         rewardPerShare: 0,
         totalSupply: 0,
+        ledger: { staked: 0, balance: 0 },
     } as TokenContractState,
     reducers: {},
     extraReducers: (builder) => {
@@ -50,6 +66,7 @@ const tokenContractSlice = createSlice({
             state.totalStaked = payload.totalStaked;
             state.totalSupply = payload.totalSupply;
             state.rewardPerShare = payload.rewardPerShare;
+            state.ledger = payload.ledger;
             state.loading = false;
         });
     },
