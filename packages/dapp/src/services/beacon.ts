@@ -1,35 +1,51 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
+import { NetworkType, PermissionScope } from '@airgap/beacon-sdk';
 import Tezos from './tezos';
 
 let globalWallet: BeaconWallet | undefined;
 
-export const connectedToBeacon = () => {
+export const isWalletConnected = () => {
     return globalWallet !== undefined;
 };
 
-export const connectToBeacon = async () => {
+export const connectWallet = async () => {
     if (!globalWallet) {
-        // Create a new BeaconWallet instance. The options will be passed to the DAppClient constructor.
-        const wallet = new BeaconWallet({ name: 'FA1.2 Workshop' });
+        const options = {
+            name: 'FA1.2 Workshop',
+            eventHandlers: {
+                PERMISSION_REQUEST_SUCCESS: {
+                    handler: async (data: any) => {
+                        console.log('permission data', data);
+                    },
+                },
+            },
+        };
 
-        // Setting the wallet as the wallet provider for Taquito.
+        const wallet = new BeaconWallet(options);
+
         Tezos.getTK().setWalletProvider(wallet);
         globalWallet = wallet;
+
+        await wallet.requestPermissions({
+            network: { type: NetworkType.DELPHINET },
+            scopes: [
+                PermissionScope.OPERATION_REQUEST,
+                PermissionScope.SIGN,
+                PermissionScope.THRESHOLD,
+            ],
+        });
     }
 
     if (await globalWallet.client.getActiveAccount()) {
-        // Check if we already have an account connected, so we can skip requestPermissions.
         return globalWallet;
     }
 
-    // Send permission request to the connected wallet. This will either be the browser extension, or a wallet over the P2P network.
     await globalWallet.requestPermissions();
 
     return globalWallet;
 };
 
-export const connectedPKH = () => Tezos.getTK().wallet.pkh();
+export const disconnectWallet = async () =>
+    globalWallet && isWalletConnected && (await globalWallet.disconnect());
 
-export const mint = async () => {
-    connectToBeacon();
-};
+export const walletPKH = () => Tezos.getTK().wallet.pkh();

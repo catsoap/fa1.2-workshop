@@ -1,5 +1,5 @@
 import { TOKEN_CONTRACT } from '../constants';
-import { BigMapAbstraction } from '@taquito/taquito';
+import { BigMapAbstraction, TransactionWalletOperation } from '@taquito/taquito';
 import { BigNumber } from 'bignumber.js';
 import Tezos from './tezos';
 
@@ -21,6 +21,9 @@ export interface TokenContractLedger {
 export interface TokenContract {
     getStorage(pkh?: string): Promise<TokenContractStorage>;
     getLedger(storage: TokenContractStorage, key: string): Promise<TokenContractLedger>;
+    transfer(sender: string, receiver: string, amount: number): Promise<TransactionWalletOperation>;
+    mint(amount: number): Promise<TransactionWalletOperation>;
+    staking(action: string, amount: number): Promise<TransactionWalletOperation>;
 }
 
 const tokenContract = (): TokenContract => {
@@ -34,6 +37,25 @@ const tokenContract = (): TokenContract => {
 
         async getLedger(storage: TokenContractStorage, key: string): Promise<TokenContractLedger> {
             return storage.ledger.get(key) as Promise<TokenContractLedger>;
+        },
+
+        async transfer(
+            sender: string,
+            receiver: string,
+            amount: number,
+        ): Promise<TransactionWalletOperation> {
+            const contract = await Tezos.getTK().wallet.at(TOKEN_CONTRACT);
+            return await contract.methods.transfer(sender, receiver, amount).send();
+        },
+
+        async mint(amount: number): Promise<TransactionWalletOperation> {
+            const contract = await Tezos.getTK().wallet.at(TOKEN_CONTRACT);
+            return await contract.methods.default(null).send({ amount });
+        },
+
+        async staking(action: string, amount: number): Promise<TransactionWalletOperation> {
+            const contract = await Tezos.getTK().wallet.at(TOKEN_CONTRACT);
+            return await contract.methods[action](amount).send();
         },
     };
 };

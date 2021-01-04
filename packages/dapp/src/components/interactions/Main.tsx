@@ -1,5 +1,4 @@
-import useBeacon from '../../hooks/useBeacon';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TransferForm from './TransferForm';
 import MintForm from './MintForm';
 import StakingForm from './StakingForm';
@@ -7,22 +6,22 @@ import TokenBalance from './TokenBalance';
 import Balance from './Balance';
 import { ReactComponent as LoginPicto } from '../../svg/noun_log in_1920855.svg';
 import { ReactComponent as LogoutPicto } from '../../svg/noun_Log Out_1920823.svg';
-import { fetchBalance } from '../../store/walletAccount';
-import { useEffect } from 'react';
-import { fetchStorage } from '../../store/tokenContract';
+import { WalletAccountState, walletConnect, walletDisconnect } from '../../store/walletAccount';
+import { RootState } from '../../store';
 
 const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
-    const { connect, disconnect, pkh } = useBeacon();
-
+    const walletAccount: WalletAccountState = useSelector(
+        (state: RootState) => state.walletAccount,
+    );
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(fetchBalance(pkh));
-        dispatch(fetchStorage(pkh));
-    }, [dispatch, pkh]);
+    const connect = () => {
+        dispatch(walletConnect());
+    };
+    const disconnect = () => dispatch(walletDisconnect());
 
     return (
         <div className="i-Interactions">
-            {!pkh ? (
+            {!walletAccount.pkh ? (
                 <div className="i-Account_not-connected">
                     <div>wallet not connected</div>
                     <button onClick={connect} aria-label="connect wallet">
@@ -33,9 +32,9 @@ const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
                 <>
                     <div className="i-Account_connected">
                         <div>
-                            {pkh}
+                            {walletAccount.pkh}
                             <br />
-                            <Balance pkh={pkh} />
+                            <Balance pkh={walletAccount.pkh} />
                             <br />
                             <TokenBalance />
                         </div>

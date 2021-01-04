@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
-import useBeacon from '../../hooks/useBeacon';
 import { validateAddress, ValidationResult } from '@taquito/utils';
+import tokenContract from '../../services/token-contract';
 
 type FormData = {
     sender: string;
@@ -9,12 +9,9 @@ type FormData = {
 };
 
 const TransferForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
-    const { Tezos } = useBeacon();
     const { register, handleSubmit, errors } = useForm<FormData>();
     const onSubmit = async (data: FormData) => {
-        const contract = await Tezos.wallet.at(contractAddress);
-        const op = await contract.methods.transfer(data.sender, data.receiver, data.amount).send();
-        await op.confirmation(1);
+        await tokenContract.transfer(data.sender, data.receiver, data.amount);
     };
 
     return (

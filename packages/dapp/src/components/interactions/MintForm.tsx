@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletAccountState } from '../../store/walletAccount';
 import { RootState } from '../../store';
-import useBeacon from '../../hooks/useBeacon';
 import { fetchBalance } from '../../store/walletAccount';
 import { fetchStorage } from '../../store/tokenContract';
+import tokenContract from '../../services/token-contract';
 
 type FormData = {
     amount: number;
@@ -15,13 +15,11 @@ const MintForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) =>
         (state: RootState) => state.walletAccount,
     );
 
-    const { Tezos } = useBeacon();
     const { register, handleSubmit, errors } = useForm<FormData>();
     const dispatch = useDispatch();
+
     const onSubmit = async (data: FormData) => {
-        const contract = await Tezos.wallet.at(contractAddress);
-        const op = await contract.methods.default(null).send(data);
-        await op.confirmation(1);
+        await tokenContract.mint(data.amount);
         dispatch(fetchBalance(walletAccount.pkh));
         dispatch(fetchStorage(walletAccount.pkh));
     };
