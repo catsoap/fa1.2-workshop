@@ -9,10 +9,10 @@ import { ReactComponent as PictoLink } from '../svg/noun_External Link_704636.sv
 
 dayjs.extend(relativeTime);
 
-interface Item {
+type Item = {
     label: string;
     value: number | string;
-}
+};
 
 const StorageInfo: React.FC = () => {
     const tokenContract: TokenContractState = useSelector(

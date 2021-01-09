@@ -3,12 +3,12 @@ import BigNumber from 'bignumber.js';
 import Tezos from '../services/tezos';
 import { walletPKH, connectWallet, disconnectWallet } from '../services/beacon';
 
-export interface WalletAccountState {
+export type WalletAccountState = {
     loading: boolean;
     error: string;
     pkh: string | undefined;
     balance: string;
-}
+};
 
 const initialState = {
     loading: false,
@@ -17,10 +17,10 @@ const initialState = {
     balance: '0',
 } as WalletAccountState;
 
-export const walletConnect = createAsyncThunk<WalletAccountState>(
+export const walletConnect = createAsyncThunk<WalletAccountState, Function>(
     'walletAccount/connect',
-    async () => {
-        await connectWallet();
+    async (fetchStorage) => {
+        await connectWallet(fetchStorage);
         const pkh = await walletPKH();
         const bal = await Tezos.getTK().tz.getBalance(pkh);
         const balance = new BigNumber(Tezos.getTK().format('mutez', 'tz', bal)).toFixed(2);

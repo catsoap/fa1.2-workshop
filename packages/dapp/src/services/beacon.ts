@@ -8,14 +8,14 @@ export const isWalletConnected = () => {
     return globalWallet !== undefined;
 };
 
-export const connectWallet = async () => {
+export const connectWallet = async (fetchStorage: Function) => {
     if (!globalWallet) {
         const options = {
             name: 'FA1.2 Workshop',
             eventHandlers: {
                 PERMISSION_REQUEST_SUCCESS: {
                     handler: async (data: any) => {
-                        console.log('permission data', data);
+                        fetchStorage(data.account.address);
                     },
                 },
             },

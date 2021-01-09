@@ -8,6 +8,7 @@ import { ReactComponent as LoginPicto } from '../../svg/noun_log in_1920855.svg'
 import { ReactComponent as LogoutPicto } from '../../svg/noun_Log Out_1920823.svg';
 import { WalletAccountState, walletConnect, walletDisconnect } from '../../store/walletAccount';
 import { RootState } from '../../store';
+import { fetchStorage } from '../../store/tokenContract';
 
 const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     const walletAccount: WalletAccountState = useSelector(
@@ -15,7 +16,7 @@ const Main: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     );
     const dispatch = useDispatch();
     const connect = () => {
-        dispatch(walletConnect());
+        dispatch(walletConnect((pkh: string) => dispatch(fetchStorage(pkh))));
     };
     const disconnect = () => dispatch(walletDisconnect());
 

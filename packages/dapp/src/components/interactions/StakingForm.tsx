@@ -1,6 +1,10 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import tokenContract from '../../services/token-contract';
+import { fetchStorage } from '../../store/tokenContract';
+import { WalletAccountState } from '../../store/walletAccount';
+import { RootState } from '../../store';
 
 type FormData = {
     amount: number;
@@ -8,10 +12,15 @@ type FormData = {
 
 const StakingForm: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
     const [action, setAction] = useState<string>();
+    const walletAccount: WalletAccountState = useSelector(
+        (state: RootState) => state.walletAccount,
+    );
+    const dispatch = useDispatch();
     const { register, handleSubmit, errors } = useForm<FormData>();
     const onSubmit = async (data: FormData) => {
         if (action) {
             await tokenContract.staking(action, data.amount);
+            dispatch(fetchStorage(walletAccount.pkh));
         }
     };
 

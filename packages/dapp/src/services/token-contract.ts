@@ -3,28 +3,28 @@ import { BigMapAbstraction, TransactionWalletOperation } from '@taquito/taquito'
 import { BigNumber } from 'bignumber.js';
 import Tezos from './tezos';
 
-export interface TokenContractStorage {
+export type TokenContractStorage = {
     totalStaked: BigNumber;
     rewardPerShare: BigNumber;
     lastUpdateTime: string;
     totalSupply: BigNumber;
     ledger: BigMapAbstraction;
-}
+};
 
-export interface TokenContractLedger {
+export type TokenContractLedger = {
     allowances: BigMapAbstraction;
     balance: BigNumber;
     staked: BigNumber;
     rewardPerShare: BigNumber;
-}
+};
 
-export interface TokenContract {
+export type TokenContract = {
     getStorage(pkh?: string): Promise<TokenContractStorage>;
     getLedger(storage: TokenContractStorage, key: string): Promise<TokenContractLedger>;
     transfer(sender: string, receiver: string, amount: number): Promise<TransactionWalletOperation>;
     mint(amount: number): Promise<TransactionWalletOperation>;
     staking(action: string, amount: number): Promise<TransactionWalletOperation>;
-}
+};
 
 const tokenContract = (): TokenContract => {
     return {

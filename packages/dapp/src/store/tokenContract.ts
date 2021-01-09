@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOKEN_CONTRACT } from '../constants';
 import tokenContract from '../services/token-contract';
 
-export interface TokenContractState {
+export type TokenContractState = {
     address: string;
     loading: boolean;
     error: string;
@@ -14,7 +14,7 @@ export interface TokenContractState {
         staked: number;
         balance: number;
     };
-}
+};
 
 export const fetchStorage = createAsyncThunk<TokenContractState, string | undefined>(
     'tokenContract/fetchStorage',
